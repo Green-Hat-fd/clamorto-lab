@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatsManager : MonoBehaviour, IPlayer
 {
@@ -15,13 +16,18 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     PlayerMovRB playerMovScr;
 
     [SerializeField] PlayerStatsSO_Script stats_SO;
-    public bool isDamageable = true;
-    bool isDead,
-         isDeadFromWall = false;
 
     [Space(20)]
     [Range(-100, 0)]
     [SerializeField] float yMinDeath = -10;
+    [Min(1)]
+    [SerializeField] int maxHealth = 3;
+    int health,
+        lives;
+    bool isDamageable = true,
+         isDead;
+
+    Vector3 checkpointPosition;
 
     [Space(10)]
     [Min(0)]
@@ -29,7 +35,8 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     [Header("—— Feedback ——")]
     [SerializeField] AudioSource deathSfx;
-    [SerializeField] Canvas deathCanvas;
+    [SerializeField] Canvas fakeDeathCanvas,
+                            deathCanvas;
     [SerializeField] SpriteRenderer normalSpr;
     [SerializeField] SpriteRenderer deathSpr;
 
@@ -71,9 +78,10 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         deathMng = FindObjectOfType<DeathManager>();
         playerMovScr = FindObjectOfType<PlayerMovRB>();
 
-        isDeadFromWall = false;
+        health = maxHealth;
         isDead = false;
         deathCanvas.gameObject.SetActive(false);
+        checkpointPosition = transform.position;
 
         //Toglie i power-up dal giocatore
         //stats_SO.ResetPowerUps();
@@ -128,7 +136,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         //Muore quando supera il limite minimo sulla Y
         if (transform.position.y <= yMinDeath)
         {
-            Die();
+            SetHealthToZero();
         }
 
 
@@ -139,16 +147,19 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         scoreTxt.text = "Score: " + stats_SO.GetScore();
 
         //Cambio carica del collezionabile
+        collectableImg.gameObject.SetActive(stats_SO.GetIsCollectableTaken());
+        /*
         collectableImg.type = Image.Type.Filled;
         collectableImg.fillMethod = Image.FillMethod.Radial360;
         collectableImg.fillOrigin = 2;    //Dall'alto (Top)
         collectableImg.fillClockwise = false;
-        collectableImg.fillAmount = stats_SO.GetHowManyCollectableTaken_Percent();
+        collectableImg.fillAmount = stats_SO.GetHowManyCollectableTaken_Percent();//*/
 
         //Cambia il power-up da utilizzare e
         //quello in uso in base a quale sia
-        //ChangePowerUpImage(stats_SO.GetPowerToUse(), powUpToUseImg);
-        //ChangePowerUpImage(stats_SO.GetActivePowerUp(), activePowUpImg);
+        /*
+        ChangePowerUpImage(stats_SO.GetPowerToUse(), powUpToUseImg);
+        ChangePowerUpImage(stats_SO.GetActivePowerUp(), activePowUpImg);//*/
 
 
             #region Funzioni interne
@@ -181,40 +192,91 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         #endregion
     }
 
-    public void Die()
+
+    #region Danno e Morte
+
+    public void SetHealthToZero()
     {
-        bool canDie = isDamageable || isDeadFromWall;
+        health = 0;
 
-        if (canDie && !isDead)   //Se si puo' uccidere
-        {
-            isDead = true;
-            isDeadFromWall = false;
-            SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
-                                        //e mostra quello di morte
-
-            ResetAllPowerUps();
-
-            deathMng.ActivateScripts(false);    //Disattiva tutti gli script nella lista
-
-            deathCanvas.gameObject.SetActive(true);
-
-            #region Feedback
-
-            //Mostra la canvas di Game Over
-            deathCanvas.gameObject.SetActive(true);
-
-            //Audio
-            //deathMng.ActivateLevelMusic(false);    //Disattiva la musica
-            deathSfx.Play();                    //Riproduce il suono di morte
-
-            #endregion
-        }
+        CheckDeath();
     }
 
     public void TakeDamage()
     {
-        isDeadFromWall = true;
-        Die();
+        if (health - 1 >= 0)    //Se ha ancora punti vita...
+        {
+            health--;
+        }
+
+        CheckDeath();
+    }
+
+    public void CheckDeath()
+    {
+        bool canDie = health <= 0;
+
+        if (canDie && !isDead)   //Se si puo' uccidere
+        {
+            lives--;    //Toglie una vita
+
+            isDead = true;
+
+
+            if (lives <= 0)    //Se NON hai più vite
+            {
+                Die_RespawnFromCheckpoint();
+            }
+            else    //Se hai ancora altre vite
+            {
+                Die();
+            }
+        }
+    }
+
+    public void Die_RespawnFromCheckpoint()
+    {
+        SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
+                                    //e mostra quello di morte
+
+        ResetAllPowerUps();
+
+        deathMng.ActivateScripts(false);    //Disattiva tutti gli script nella lista
+
+        #region Feedback
+
+        //Mostra la canvas di Game Over (per il checkpoint)
+        fakeDeathCanvas.gameObject.SetActive(true);
+
+        //Audio
+        //deathMng.ActivateLevelMusic(false);    //Disattiva la musica
+        deathSfx.Play();                    //Riproduce il suono di morte
+
+        #endregion
+    }
+
+    public void Die()
+    {
+        //TODO-----
+
+
+        SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
+                                    //e mostra quello di morte
+
+        ResetAllPowerUps();
+
+        deathMng.ActivateScripts(false);    //Disattiva tutti gli script nella lista
+
+        #region Feedback
+
+        //Mostra la canvas di Game Over
+        deathCanvas.gameObject.SetActive(true);
+
+        //Audio
+        //deathMng.ActivateLevelMusic(false);    //Disattiva la musica
+        deathSfx.Play();                    //Riproduce il suono di morte
+
+        #endregion
     }
 
     public void SwapToDeathSprite(bool isDead)
@@ -222,6 +284,8 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         normalSpr.gameObject.SetActive(!isDead);
         deathSpr.gameObject.SetActive(isDead);
     }
+
+    #endregion
 
 
     #region Power-Up - 1
@@ -330,6 +394,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         //Disattiva tutti i power-up
         EndSlowTimerPowUp();
         EndInvincibilePowerUp();
+    }
+
+
+    public void SetCheckpointPosition(Vector3 newPos)
+    {
+        checkpointPosition = newPos;
     }
 
 

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CapsuleCollider2D)),
+ RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovRB : MonoBehaviour
 {
     Rigidbody2D rb;
@@ -141,27 +142,6 @@ public class PlayerMovRB : MonoBehaviour
         }
 
         #endregion
-
-
-        #region Controllo in pendenza
-
-        //
-
-        #endregion
-    }
-
-    bool InSlope()
-    {
-        if (Physics2D.Raycast(transform.position, -transform.up, halfPlayerHeight + limitGroundCheck).transform)
-        {
-            //Prende l'angolo della pendenza
-            //(tra il vett. "sotto" e la normale del terreno)
-            float angle = Vector3.Angle(transform.up, slopeHit.normal);
-
-            return angle != 0;
-        }
-
-        return false;   //Nel caso non colpisce nulla
     }
 
 

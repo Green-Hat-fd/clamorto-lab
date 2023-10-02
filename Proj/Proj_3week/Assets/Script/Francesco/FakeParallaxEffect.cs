@@ -48,7 +48,6 @@ public class FakeParallaxEffect : MonoBehaviour
         startBgSprPos = backgroundSpr.transform.localPosition;
         levelStartPos = transform.position + parallaxAxis * limits.x;
         levelEndPos = transform.position + parallaxAxis * limits.y;
-        print(Camera.main.orthographicSize + " ~ " + Camera.main.orthographicSize * Screen.width / Screen.height);
     }
     
     void FixedUpdate()
@@ -64,6 +63,8 @@ public class FakeParallaxEffect : MonoBehaviour
         transform.position = newPos_cam;
 
 
+        //Prende la distanza tra i due limiti
+        //e la posizione di mezzo
         float levelDist = Vector2.Distance(levelEndPos, levelStartPos),
               halfLevelDist = levelDist / 2;
         Vector2 halfPos = Vector2.Lerp(levelStartPos, levelEndPos, 0.5f);
@@ -81,20 +82,34 @@ public class FakeParallaxEffect : MonoBehaviour
         playerDistPercent = Mathf.Clamp(playerDistPercent, -1, 1);
 
         
-        //Aggiorna la posizione dello sprite
-        //per coprire l'intero livello
+        //Sposta lo sfondo rispetto al giocatore
         Vector3 newPos_bgSpr = default;
         newPos_bgSpr.z = startBgSprPos.z;
 
         SwitchAdd(ref newPos_bgSpr.x,
                   ref newPos_bgSpr.y,
-                  (sprSize.x
-                   * backgroundSpr.transform.localScale.x
-                   * playerDistPercent) / 2,
-                  (sprSize.y
-                   * backgroundSpr.transform.localScale.y
-                   * playerDistPercent) / 2);                           //TODO: da sistemare
+                  (backgroundSpr.transform.localScale.x
+                   / 2) * playerDistPercent,
+                  (backgroundSpr.transform.localScale.y
+                   / 2) * playerDistPercent);
 
+        //Limita il movimento dello sfondo
+        //ai limiti della camera
+        Vector2 realSprDim = sprSize - (Vector2)backgroundSpr.transform.localScale,
+                halfRealSprDim = realSprDim / 2;
+
+        SwitchSet(ref newPos_bgSpr.x,
+                  ref newPos_bgSpr.y,
+                  Mathf.Clamp(newPos_bgSpr.x,
+                              -(Camera.main.orthographicSize * Camera.main.aspect - halfRealSprDim.x),
+                              Camera.main.orthographicSize * Camera.main.aspect - halfRealSprDim.x),
+                  Mathf.Clamp(newPos_bgSpr.y,
+                              -(Camera.main.orthographicSize - halfRealSprDim.y),
+                              Camera.main.orthographicSize - halfRealSprDim.y)
+                  );
+
+        //Aggiorna la posizione dello sfondo
+        //per coprire l'intero livello
         backgroundSpr.transform.localPosition = newPos_bgSpr;
     }
 
@@ -222,6 +237,11 @@ public class FakeParallaxEffect : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawWireCube(_posMin, _dim);
         Gizmos.DrawWireCube(_posMax, _dim);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(-transform.right * (Camera.main.orthographicSize * Camera.main.aspect * 0.5f), 0.25f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(-transform.up * (Camera.main.orthographicSize * 0.5f), 0.25f);
     }
 
     #endregion
