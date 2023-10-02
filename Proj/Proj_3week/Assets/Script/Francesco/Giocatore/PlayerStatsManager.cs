@@ -147,16 +147,19 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         scoreTxt.text = "Score: " + stats_SO.GetScore();
 
         //Cambio carica del collezionabile
+        collectableImg.gameObject.SetActive(stats_SO.GetIsCollectableTaken());
+        /*
         collectableImg.type = Image.Type.Filled;
         collectableImg.fillMethod = Image.FillMethod.Radial360;
         collectableImg.fillOrigin = 2;    //Dall'alto (Top)
         collectableImg.fillClockwise = false;
-        collectableImg.fillAmount = stats_SO.GetHowManyCollectableTaken_Percent();
+        collectableImg.fillAmount = stats_SO.GetHowManyCollectableTaken_Percent();//*/
 
         //Cambia il power-up da utilizzare e
         //quello in uso in base a quale sia
-        //ChangePowerUpImage(stats_SO.GetPowerToUse(), powUpToUseImg);
-        //ChangePowerUpImage(stats_SO.GetActivePowerUp(), activePowUpImg);
+        /*
+        ChangePowerUpImage(stats_SO.GetPowerToUse(), powUpToUseImg);
+        ChangePowerUpImage(stats_SO.GetActivePowerUp(), activePowUpImg);//*/
 
 
             #region Funzioni interne

@@ -6,16 +6,14 @@ using UnityEngine;
 public class PlayerStatsSO_Script : ScriptableObject
 {
     [SerializeField] int score;
-    [SerializeField] int howManyCollectableTaken = 0;
-    [Range(1, 5)]
-    [SerializeField] int maxCollectableToTake = 4;
+    [SerializeField] bool isCollectableTaken = false;
 
     [Header("—— Inventario ——")]
     //[SerializeField] PowerUp.PowerUpType_Enum activePowerUp;
     float powerUpDuration;
 
     [Header("—— Effetti ——")]
-    [SerializeField] float timeSpeed_TimerPowUp = 0.5f;
+    [SerializeField] float timeSpeed_TimerPowUp_ELIM = 0.5f;
 
     //const PowerUp.PowerUpType_Enum POW_EMPTY = PowerUp.PowerUpType_Enum._empty;
 
@@ -79,10 +77,9 @@ public class PlayerStatsSO_Script : ScriptableObject
         score += scoreToAdd;
     }
 
-    public void AddCollectableTaken()
+    public void SetCollectableTaken(bool value)
     {
-        if (howManyCollectableTaken + 1 <= maxCollectableToTake)
-            howManyCollectableTaken++;
+        isCollectableTaken = value;
     }
 
     #endregion
@@ -92,13 +89,9 @@ public class PlayerStatsSO_Script : ScriptableObject
 
     public int GetScore() => score;
 
-    public int GetHowManyCollectableTaken()
+    public bool GetIsCollectableTaken()
     {
-        return howManyCollectableTaken;
-    }
-    public float GetHowManyCollectableTaken_Percent()
-    {
-        return (float)howManyCollectableTaken / maxCollectableToTake;
+        return isCollectableTaken;
     }
 
     //public PowerUp.PowerUpType_Enum GetPowerToUse() => powerUp_toUse;
@@ -109,7 +102,7 @@ public class PlayerStatsSO_Script : ScriptableObject
         return powerUpDuration;
     }
 
-    public float GetTimeSpeed_TimerPowUp() => timeSpeed_TimerPowUp;
+    public float GetTimeSpeed_TimerPowUp() => timeSpeed_TimerPowUp_ELIM;
 
     #endregion
 
@@ -118,7 +111,7 @@ public class PlayerStatsSO_Script : ScriptableObject
 
     public void ResetCollectableTaken()
     {
-        howManyCollectableTaken = 0;
+        isCollectableTaken = false;
     }
 
     /*public void ResetPowerUps()
