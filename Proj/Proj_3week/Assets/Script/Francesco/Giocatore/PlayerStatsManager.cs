@@ -24,9 +24,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] int maxHealth = 3;
     int health,
         lives;
-    bool isDead;
+    bool canBeDamaged,
+         isDead;
 
     [Space(10)]
+    [Min(0.1f)]
+    [SerializeField] float invSec = 3;
     [Min(0)]
     [SerializeField] int scoreWhenUsePowerUp;
 
@@ -71,6 +74,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         playerMovScr = FindObjectOfType<PlayerMovRB>();
 
         health = maxHealth;
+        canBeDamaged = true;
         isDead = false;
         deathCanvas.gameObject.SetActive(false);
         stats_SO.SetCheckpointPos(transform.position);
@@ -154,12 +158,22 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void Pl_TakeDamage()
     {
-        if (health - 1 >= 0)    //Se ha ancora punti vita...
+        //Se ha ancora punti vita
+        //e può essere danneggiato...
+        if (canBeDamaged && health - 1 >= 0)
         {
             health--;
+
+            canBeDamaged = false;
+            Invoke("EnableCanBeDamaged", invSec);
         }
 
         Pl_CheckDeath();
+    }
+
+    void EnableCanBeDamaged()
+    {
+        canBeDamaged = true;
     }
 
     public void Pl_CheckDeath()

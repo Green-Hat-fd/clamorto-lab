@@ -28,7 +28,7 @@ public class CheckpointScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //Disegna un rettangolo dove il giocatore muore
+        //Disegna un rettangolo nel punto di respawn del checkpoint
         Gizmos.color = Color.cyan;
         Gizmos.DrawCube(transform.position + (Vector3)checkpointOffset, Vector2.one * 0.2f);
     }

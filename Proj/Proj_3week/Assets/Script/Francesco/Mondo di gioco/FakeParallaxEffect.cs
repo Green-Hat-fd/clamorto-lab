@@ -17,6 +17,9 @@ public class FakeParallaxEffect : MonoBehaviour
 
     Transform player;
 
+    [SerializeField] float cameraZOffset = -10;
+
+    [Space(20)]
     [SerializeField] ParallaxOrientation_Enum parallaxOrient;
     [SerializeField] Vector2 limits;
     Vector3 parallaxAxis,
@@ -52,7 +55,7 @@ public class FakeParallaxEffect : MonoBehaviour
     
     void FixedUpdate()
     {
-        Vector3 newPos_cam = player.position;
+        Vector3 newPos_cam = player.position + Vector3.forward * cameraZOffset;
 
 
         SwitchSet(ref newPos_cam.x,
