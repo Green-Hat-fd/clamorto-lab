@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Tile_ccs_angolo-grande
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -8139698850185208127, guid: b1e1c8f6d41ccc44a8064594e38d5eaf, type: 3}
+  m_Sprite: {fileID: -4935300381865944456, guid: b1e1c8f6d41ccc44a8064594e38d5eaf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
