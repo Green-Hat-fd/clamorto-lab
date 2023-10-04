@@ -24,12 +24,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] int maxHealth = 3;
     int health,
         lives;
-    bool isDamageable = true,
+    bool canBeDamaged,
          isDead;
 
-    Vector3 checkpointPosition;
-
     [Space(10)]
+    [Min(0.1f)]
+    [SerializeField] float invSec = 3;
     [Min(0)]
     [SerializeField] int scoreWhenUsePowerUp;
 
@@ -52,11 +52,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     [Header("—— UI ——")]
     [SerializeField] Text scoreTxt;
-    [SerializeField] Image collectableImg,
-                           powUpToUseImg,
-                           activePowUpImg;
-    [SerializeField] Sprite powUp_TimerSpr,
-                            powUp_InvincSpr;
 
     [Header("—— DEBUG ——")]
     [SerializeField] float deathZoneSize = 15;
@@ -79,14 +74,10 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         playerMovScr = FindObjectOfType<PlayerMovRB>();
 
         health = maxHealth;
+        canBeDamaged = true;
         isDead = false;
         deathCanvas.gameObject.SetActive(false);
-        checkpointPosition = transform.position;
-
-        //Toglie i power-up dal giocatore
-        //stats_SO.ResetPowerUps();
-        stats_SO.ResetCollectableTaken();
-        stats_SO.ResetScore();
+        stats_SO.SetCheckpointPos(transform.position);
 
         //Reset degli sprite
         SwapToDeathSprite(false);
@@ -146,48 +137,11 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         //Cambio del testo (punteggio)
         scoreTxt.text = "Score: " + stats_SO.GetScore();
 
-        //Cambio carica del collezionabile
-        collectableImg.gameObject.SetActive(stats_SO.GetIsCollectableTaken());
-        /*
-        collectableImg.type = Image.Type.Filled;
-        collectableImg.fillMethod = Image.FillMethod.Radial360;
-        collectableImg.fillOrigin = 2;    //Dall'alto (Top)
-        collectableImg.fillClockwise = false;
-        collectableImg.fillAmount = stats_SO.GetHowManyCollectableTaken_Percent();//*/
-
-        //Cambia il power-up da utilizzare e
+        //Cambia la vita e la vita bonus
         //quello in uso in base a quale sia
         /*
         ChangePowerUpImage(stats_SO.GetPowerToUse(), powUpToUseImg);
         ChangePowerUpImage(stats_SO.GetActivePowerUp(), activePowUpImg);//*/
-
-
-            #region Funzioni interne
-
-        /*void ChangePowerUpImage(PowerUp.PowerUpType_Enum powUpType, Image img)
-        {
-            //Nasconde l'immagine se è vuoto
-            img.color = powUpType == POW_EMPTY ? Color.clear : Color.white;
-
-            //Cambia l'immagine rispetto al power-up passato
-            switch (powUpType)
-            {
-                case POW_TIMER:
-                    img.sprite = powUp_TimerSpr;
-                    break;
-
-                case POW_INVINCIBLE:
-                    img.sprite = powUp_InvincSpr;
-                    break;
-
-                default:
-                case POW_EMPTY:
-                    img.sprite = null;
-                    break;
-            }
-        }//*/
-
-        #endregion
 
         #endregion
     }
@@ -199,20 +153,30 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     {
         health = 0;
 
-        CheckDeath();
+        Pl_CheckDeath();
     }
 
-    public void TakeDamage()
+    public void Pl_TakeDamage()
     {
-        if (health - 1 >= 0)    //Se ha ancora punti vita...
+        //Se ha ancora punti vita
+        //e può essere danneggiato...
+        if (canBeDamaged && health - 1 >= 0)
         {
             health--;
+
+            canBeDamaged = false;
+            Invoke("EnableCanBeDamaged", invSec);
         }
 
-        CheckDeath();
+        Pl_CheckDeath();
     }
 
-    public void CheckDeath()
+    void EnableCanBeDamaged()
+    {
+        canBeDamaged = true;
+    }
+
+    public void Pl_CheckDeath()
     {
         bool canDie = health <= 0;
 
@@ -229,7 +193,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             }
             else    //Se hai ancora altre vite
             {
-                Die();
+                Pl_Die();
             }
         }
     }
@@ -255,7 +219,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         #endregion
     }
 
-    public void Die()
+    public void Pl_Die()
     {
         //TODO-----
 
@@ -283,6 +247,26 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     {
         normalSpr.gameObject.SetActive(!isDead);
         deathSpr.gameObject.SetActive(isDead);
+    }
+
+    #endregion
+
+
+    #region Rinascita (Checkpoint + dal livello)
+
+    public void RespawnFromCheckpoint()
+    {
+        deathCanvas.gameObject.SetActive(false);
+        deathMng.ActivateScripts(true);
+
+        //Rimette il giocatore nella posizione dell'ultimo checkpoint
+        transform.position = stats_SO.GetCheckpointPos();
+    }
+
+    public void RespawnLevel()
+    {
+        //Ricarica il livello in sè
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     #endregion
@@ -341,65 +325,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     #endregion
 
 
-    #region Power-Up - 2
-
-    //TODO
-    IEnumerator ActivateInvincibilePowUp(float powUpTime)
-    {
-        print("inizio Invinc");
-
-        stats_SO.AddScore(scoreWhenUsePowerUp);
-
-
-        //Inizio effetti
-        isDamageable = false;
-
-        #region Feedback - inizio effetti
-
-        powUpInvincibile_usedSfx.Play();    //Audio
-
-        #endregion
-
-
-        yield return new WaitForSeconds(powUpTime);
-        
-
-        //Fine effetti
-        EndInvincibilePowerUp();
-
-        #region Feedback - fine effetti
-
-        powUpInvincibile_endedSfx.Play();    //Audio
-
-        #endregion
-
-
-        //stats_SO.ResetActivePowerUp();
-        
-        print("fine Invinc");
-    }
-
-    void EndInvincibilePowerUp()
-    {
-        isDamageable = true;
-    }
-
-    #endregion
-
-
     void ResetAllPowerUps()
     {
         StopAllCoroutines();
 
         //Disattiva tutti i power-up
         EndSlowTimerPowUp();
-        EndInvincibilePowerUp();
-    }
-
-
-    public void SetCheckpointPosition(Vector3 newPos)
-    {
-        checkpointPosition = newPos;
     }
 
 

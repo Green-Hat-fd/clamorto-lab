@@ -6,7 +6,12 @@ using UnityEngine;
 public class PlayerStatsSO_Script : ScriptableObject
 {
     [SerializeField] int score;
-    [SerializeField] bool isCollectableTaken = false;
+
+    [Header("—— Livelli ——")]
+    [SerializeField] Vector3 checkpointPos = Vector3.zero;
+    [SerializeField] bool isLevelOneCompleted = false;
+    [SerializeField] bool isLevelTwoCompleted = false;
+    [SerializeField] bool isBossLevelCompleted = false;
 
     [Header("—— Inventario ——")]
     //[SerializeField] PowerUp.PowerUpType_Enum activePowerUp;
@@ -77,9 +82,22 @@ public class PlayerStatsSO_Script : ScriptableObject
         score += scoreToAdd;
     }
 
-    public void SetCollectableTaken(bool value)
+    public void SetCheckpointPos(Vector3 newPos)
     {
-        isCollectableTaken = value;
+        checkpointPos = newPos;
+    }
+
+    public void SetLevelOneCompleted(bool value)
+    {
+        isLevelOneCompleted = value;
+    }
+    public void SetLevelTwoCompleted(bool value)
+    {
+        isLevelTwoCompleted = value;
+    }
+    public void SetBossLevelCompleted(bool value)
+    {
+        isBossLevelCompleted = value;
     }
 
     #endregion
@@ -89,10 +107,11 @@ public class PlayerStatsSO_Script : ScriptableObject
 
     public int GetScore() => score;
 
-    public bool GetIsCollectableTaken()
-    {
-        return isCollectableTaken;
-    }
+    public Vector3 GetCheckpointPos() => checkpointPos;
+
+    public bool GetIsLevelOneCompleted() => isLevelOneCompleted;
+    public bool GetIsLevelTwoCompleted() => isLevelTwoCompleted;
+    public bool GetIsBossLevelCompleted() => isBossLevelCompleted;
 
     //public PowerUp.PowerUpType_Enum GetPowerToUse() => powerUp_toUse;
     //public PowerUp.PowerUpType_Enum GetActivePowerUp() => activePowerUp;
@@ -108,11 +127,6 @@ public class PlayerStatsSO_Script : ScriptableObject
 
 
     #region Funzioni Reset
-
-    public void ResetCollectableTaken()
-    {
-        isCollectableTaken = false;
-    }
 
     /*public void ResetPowerUps()
     {
