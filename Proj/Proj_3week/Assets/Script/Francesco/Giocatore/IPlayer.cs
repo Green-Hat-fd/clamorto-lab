@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IPlayer
 {
-    void TakeDamage();
+    void Pl_TakeDamage();
 
-    void CheckDeath();
+    void Pl_CheckDeath();
 
-    void Die();
+    void Pl_Die();
 }

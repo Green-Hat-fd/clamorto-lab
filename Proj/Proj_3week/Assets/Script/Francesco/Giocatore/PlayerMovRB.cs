@@ -43,7 +43,6 @@ public class PlayerMovRB : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
     }
 
     private void Update()
