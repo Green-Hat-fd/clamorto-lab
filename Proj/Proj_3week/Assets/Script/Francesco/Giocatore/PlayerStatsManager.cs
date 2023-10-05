@@ -30,8 +30,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [Space(10)]
     [Min(0.1f)]
     [SerializeField] float invSec = 3;
-    [Min(0)]
-    [SerializeField] int scoreWhenUsePowerUp;
 
     [Header("—— Feedback ——")]
     [SerializeField] AudioSource deathSfx;
@@ -243,8 +241,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     IEnumerator ActivateSlowTimerPowUp(float powUpTime, float timeSpeed)
     {
         print("inizio SlowTime");
-
-        stats_SO.AddScore(scoreWhenUsePowerUp);
 
 
         //Inizio effetti

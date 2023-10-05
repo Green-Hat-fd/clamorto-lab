@@ -21,7 +21,7 @@ public class FakeParallaxEffect : MonoBehaviour
 
     [Space(20)]
     [SerializeField] ParallaxOrientation_Enum parallaxOrient;
-    [SerializeField] Vector2 limits;
+    [SerializeField] Vector2 limits_inWorld;
     Vector3 parallaxAxis,
             startBgSprPos;
     Vector2 sprSize,
@@ -29,9 +29,6 @@ public class FakeParallaxEffect : MonoBehaviour
 
     [Space(20)]
     [SerializeField] SpriteRenderer backgroundSpr;
-    
-    
-    float DEBUG_float;
     
 
 
@@ -49,24 +46,29 @@ public class FakeParallaxEffect : MonoBehaviour
         //Prende le posizioni iniziali rispetto al mondo
         sprSize = backgroundSpr.size;
         startBgSprPos = backgroundSpr.transform.localPosition;
-        levelStartPos = transform.position + parallaxAxis * limits.x;
-        levelEndPos = transform.position + parallaxAxis * limits.y;
+        levelStartPos = parallaxAxis * limits_inWorld.x;
+        levelEndPos = parallaxAxis * limits_inWorld.y;
     }
-    
-    void FixedUpdate()
+
+    private void Update()
     {
         Vector3 newPos_cam = player.position + Vector3.forward * cameraZOffset;
 
 
         SwitchSet(ref newPos_cam.x,
                   ref newPos_cam.y,
-                  Mathf.Clamp(newPos_cam.x, limits.x, limits.y),
-                  Mathf.Clamp(newPos_cam.y, limits.x, limits.y));
+                  Mathf.Clamp(newPos_cam.x, limits_inWorld.x, limits_inWorld.y),
+                  Mathf.Clamp(newPos_cam.y, limits_inWorld.x, limits_inWorld.y));
 
         transform.position = newPos_cam;
 
 
-        //Prende la distanza tra i due limiti
+        
+        
+    }
+
+    void FixedUpdate()
+    {//Prende la distanza tra i due limiti
         //e la posizione di mezzo
         float levelDist = Vector2.Distance(levelEndPos, levelStartPos),
               halfLevelDist = levelDist / 2;
@@ -206,8 +208,8 @@ public class FakeParallaxEffect : MonoBehaviour
         //rispetto all'orientamento scelto
         SwitchSet(ref camLimit, transform.position.x, transform.position.y);
 
-        limits.x = Mathf.Min(limits.x, camLimit);
-        limits.y = Mathf.Max(camLimit, limits.y);
+        limits_inWorld.x = Mathf.Min(limits_inWorld.x, camLimit);
+        limits_inWorld.y = Mathf.Max(camLimit, limits_inWorld.y);
     }
 
     #endregion
@@ -217,8 +219,8 @@ public class FakeParallaxEffect : MonoBehaviour
 
     private void OnDrawGizmos/*Selected*/()
     {
-        Vector3 _posMin = transform.position,
-                _posMax = transform.position,
+        Vector3 _posMin = Vector3.zero,
+                _posMax = Vector3.zero,
                 _dim;
 
         //Cambia il limite della telecamera
@@ -229,8 +231,8 @@ public class FakeParallaxEffect : MonoBehaviour
         SwitchSet(ref _axis, transform.right, transform.up);
         SwitchSet(ref _dimAxis, transform.up, transform.right);
 
-        _posMin += _axis * limits.x;
-        _posMax += _axis * limits.y;
+        _posMin += _axis * limits_inWorld.x;
+        _posMax += _axis * limits_inWorld.y;
         _dim = _dimAxis * 7.5f + Vector3.forward;
 
         _posMin = Application.isPlaying ? (Vector3)levelStartPos : _posMin;
