@@ -30,8 +30,14 @@ public class ShootScript : MonoBehaviour
 
         //Calcola la posizione del mouse nel mondo e poi prende l'angolo rispetto alla telecamera
         Camera mainCam = Camera.main;
-        Vector2 mouseInWorldPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-        float mouseAngle = Vector2.SignedAngle(mouseInWorldPos, transform.position);
+        Vector2 mouseInWorldPos = mainCam.ScreenToWorldPoint(Input.mousePosition),
+                mouseInWorldPos_normalized = mouseInWorldPos - (Vector2)mainCam.transform.position;
+
+            //Calcola l'angolo tra
+            //il vettore (distanza tra posiz. mouse nel mondo e la camera)
+            //normalizzato (ovvero posizionato all'origine [0;0])
+            //e il vettore destra [1;0]
+        float mouseAngle = Vector2.SignedAngle(mouseInWorldPos_normalized, Vector2.right);
 
 
         bool isPointingLeft = mouseAngle < -135 || mouseAngle > 90,

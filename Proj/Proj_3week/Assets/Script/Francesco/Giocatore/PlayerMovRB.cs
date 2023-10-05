@@ -27,7 +27,7 @@ public class PlayerMovRB : MonoBehaviour
     RaycastHit2D slopeHit;
 
     [Header("—— Feedback ——")]
-    [SerializeField] GameObject playerObj;
+    [SerializeField] SpriteRenderer playerSpr;
 
     [Space(10)]
     [SerializeField] Animator playerAnim;
@@ -71,8 +71,8 @@ public class PlayerMovRB : MonoBehaviour
 
         if (isMoving)    //Se sta continuando a muoversi...
         {
-            // flippa il gameObject se si muove verso sinistra, e torna normale se ti muovi a destra
-            playerObj.transform.rotation = xMov < 0 ? leftRot : rightRot;
+            // flippa lo sprite se si muove verso sinistra, e torna normale se ti muovi a destra
+            playerSpr.transform.rotation = xMov < 0 ? leftRot : rightRot;
         }
 
 
