@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IEnemy
 {
-    [SerializeField] int maxHealth = 2;
-    int health = 0;
+    [Min(1)]
+    [SerializeField] protected int maxHealth = 2;
+    protected int health = 0;
 
+    [Space(10)]
     [SerializeField] PlayerStatsSO_Script stats_SO;
-    [Min(0)] public int scoreAtDeath;
+    [Min(0)]
+    [SerializeField] int scoreAtDeath;
 
 
 

@@ -4,7 +4,20 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - stats_SO: {fileID: 11400000, guid: 151297f301970c94fb58d43d715e5bef, type: 2}
+  - stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
+  - deathSfx: {instanceID: 0}
+  - fakeDeathCanvas: {instanceID: 0}
+  - deathCanvas: {instanceID: 0}
+  - normalSpr: {instanceID: 0}
+  - deathSpr: {instanceID: 0}
+  - jumpSfx: {instanceID: 0}
+  - powUpPickUpSfx: {instanceID: 0}
+  - powUpTimer_usedSfx: {instanceID: 0}
+  - powUpTimer_endedSfx: {instanceID: 0}
+  - powUpInvincibile_usedSfx: {instanceID: 0}
+  - powUpInvincibile_endedSfx: {instanceID: 0}
+  - collectablePickUpSfx: {instanceID: 0}
+  - scoreTxt: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
