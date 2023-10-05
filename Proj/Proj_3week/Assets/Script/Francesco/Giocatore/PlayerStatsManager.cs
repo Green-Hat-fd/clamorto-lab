@@ -89,41 +89,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     void Update()
     {
-        //Quando devo utilizzare il powerup
-        /*if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            //Attiva il power-up messo da parte,
-            //sovrascrivendolo e passandolo in questo script
-            PowerUp.PowerUpType_Enum used_PU = stats_SO.UsePowerUp();
-            
-            if(used_PU != POW_EMPTY)
-            {
-                float dur = stats_SO.GetPowerUpDuration();    //Prende la durata dell'effetto
-                stats_SO.ResetPowerUpDuration();              //La toglie dallo Scrip.Obj.
-
-
-                //Reset tutti gli altri power-up
-                ResetAllPowerUps();
-
-
-                //Attiva il corrispettivo effetto,
-                //passando anche la durata del power-up
-                switch (used_PU)
-                {
-                    case POW_TIMER:
-                        float _tSpeed = stats_SO.GetTimeSpeed_TimerPowUp();
-
-                        StartCoroutine(ActivateSlowTimerPowUp(dur, _tSpeed));
-                        break;
-
-                    case POW_INVINCIBLE:
-                        StartCoroutine(ActivateInvincibilePowUp(dur));
-                        break;
-                }
-            }
-        }//*/
-
-
         //Muore quando supera il limite minimo sulla Y
         if (transform.position.y <= yMinDeath)
         {
@@ -331,6 +296,22 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
         //Disattiva tutti i power-up
         EndSlowTimerPowUp();
+    }
+
+
+    public void SetMaxHealth(int value)
+    {
+        maxHealth = value;
+    }
+    public void ResetMaxHealth()
+    {
+        maxHealth = 3;
+    }
+
+    public void RestoreOneHealth()
+    {
+        if(health+1 <= maxHealth)
+            health++;
     }
 
 
