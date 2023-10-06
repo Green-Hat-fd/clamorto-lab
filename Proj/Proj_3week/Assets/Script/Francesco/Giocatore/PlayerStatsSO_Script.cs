@@ -17,61 +17,8 @@ public class PlayerStatsSO_Script : ScriptableObject
     //[SerializeField] PowerUp.PowerUpType_Enum activePowerUp;
     float powerUpDuration;
 
-    [Header("—— Effetti ——")]
-    [SerializeField] float timeSpeed_TimerPowUp_ELIM = 0.5f;
-
-    //const PowerUp.PowerUpType_Enum POW_EMPTY = PowerUp.PowerUpType_Enum._empty;
-
-
-
-    /*/// <summary>
-    /// Ritorna vero se ha messo da parte il power-up
-    /// </summary>
-    /// <param name="powUp"></param>
-    /// <returns></returns>
-    public bool PickUpPowerUp(PowerUp.PowerUpType_Enum powUp, float newDuration)
-    {
-        //Se non c'e' gia' un power-up messo da parte...
-        if (powerUp_toUse == POW_EMPTY)
-        {
-            //Aggiunge il power-up a quello messo da parte
-            powerUp_toUse = powUp;
-            powerUpDuration = newDuration;    //...con la sua durata
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }//*/
-
-
-
-    /// <summary>
-    /// Ritorna il power-up da utilizzare se ce n'è uno 
-    /// </summary>
-    /// <returns></returns>
-    /*public PowerUp.PowerUpType_Enum UsePowerUp()
-    {
-        if (powerUp_toUse != POW_EMPTY)
-        {
-            //Utilizza il power-up messo da parte
-            //e lo rimuove da quello messo da parte
-            PowerUp.PowerUpType_Enum _powUpToUse = powerUp_toUse;
-
-            powerUp_toUse = POW_EMPTY;
-
-            activePowerUp = _powUpToUse;
-
-
-            return _powUpToUse;
-        }
-        else
-        {
-            return POW_EMPTY;
-        }
-    }//*/
+    [Header("—— Danno ——")]
+    [SerializeField] int bulletDamage = 1;
 
 
 
@@ -100,6 +47,11 @@ public class PlayerStatsSO_Script : ScriptableObject
         isBossLevelCompleted = value;
     }
 
+    public void SetBulletDamage(int newDmg)
+    {
+        bulletDamage = newDmg;
+    }
+
     #endregion
 
 
@@ -121,7 +73,7 @@ public class PlayerStatsSO_Script : ScriptableObject
         return powerUpDuration;
     }
 
-    public float GetTimeSpeed_TimerPowUp() => timeSpeed_TimerPowUp_ELIM;
+    public int GetBulletDamage() => bulletDamage;
 
     #endregion
 
@@ -142,6 +94,11 @@ public class PlayerStatsSO_Script : ScriptableObject
     public void ResetPowerUpDuration()
     {
         powerUpDuration = 0;
+    }
+
+    public void ResetBulletDamage()
+    {
+        bulletDamage = 1;
     }
 
     public void ResetScore()

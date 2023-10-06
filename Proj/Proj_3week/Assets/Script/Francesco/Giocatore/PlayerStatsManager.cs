@@ -16,6 +16,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     PlayerMovRB playerMovScr;
 
     [SerializeField] PlayerStatsSO_Script stats_SO;
+    [SerializeField] ShootScript shootScr;
 
     [Space(20)]
     [Range(-100, 0)]
@@ -41,15 +42,15 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [Space(10)]
     [SerializeField] AudioSource jumpSfx;
     [SerializeField] AudioSource powUpPickUpSfx;
-    [SerializeField] AudioSource powUpTimer_usedSfx;
-    [SerializeField] AudioSource powUpTimer_endedSfx;
-    [SerializeField] AudioSource powUpInvincibile_usedSfx;
-    [SerializeField] AudioSource powUpInvincibile_endedSfx;
     [Space(5)]
     [SerializeField] AudioSource collectablePickUpSfx;
 
     [Header("—— UI ——")]
     [SerializeField] Text scoreTxt;
+
+    [Space(10)]
+    [SerializeField] Text ammoTxt,
+                          maxAmmoTxt;
 
     [Header("—— DEBUG ——")]
     [SerializeField] float deathZoneSize = 15;
@@ -74,7 +75,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         health = maxHealth;
         canBeDamaged = true;
         isDead = false;
-        deathCanvas.gameObject.SetActive(false);
+        deathCanvas?.gameObject.SetActive(false);
         stats_SO.SetCheckpointPos(transform.position);
 
         //Reset degli sprite
@@ -105,6 +106,20 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         /*
         ChangePowerUpImage(stats_SO.GetPowerToUse(), powUpToUseImg);
         ChangePowerUpImage(stats_SO.GetActivePowerUp(), activePowUpImg);//*/
+
+        //Cambia le munizioni e il limite massimo
+        if (shootScr.GetHasInfiniteAmmo())
+        {
+            ammoTxt.text = shootScr.GetAmmo().ToString();
+            maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
+        }
+        else
+        {
+            //TODO: sistema le munizioni infinite
+            //ammoTxt.text = shootScr.GetAmmo().ToString();
+            //maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
+        }
+
 
         #endregion
     }
@@ -251,8 +266,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
         //DeSaturateAllSprites();
 
-        powUpTimer_usedSfx.Play();    //Audio
-
         #endregion
 
 
@@ -265,8 +278,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         #region Feedback - fine effetti
 
         //SaturateAllSprites();
-
-        powUpTimer_endedSfx.Play();    //Audio
 
         #endregion
 
