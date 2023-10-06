@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour, IEnemy
 
 
 
-    void Awake()
+    void Start()
     {
         health = maxHealth;    //Reset della vita
     }
@@ -45,17 +45,17 @@ public class Enemy : MonoBehaviour, IEnemy
         if (playerCheck != null)    //Se il giocatore è entrato nel trigger
         {
             //Danneggia il nemico
-            En_TakeDamage();
+            En_TakeDamage(int.MaxValue);
         }
     }
 
 
 
-    public void En_TakeDamage()
+    public void En_TakeDamage(int damage)
     {
-        if (health - 1 >= 0)    //Se ha ancora punti vita...
+        if (health > 0)    //Se ha ancora punti vita...
         {
-            health--;
+            health -= damage;
         }
 
         En_CheckDeath();

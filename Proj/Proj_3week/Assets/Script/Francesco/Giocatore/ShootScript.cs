@@ -11,19 +11,43 @@ public class ShootScript : MonoBehaviour
     Transform realShootingPoint;
 
     [Space(10)]
+    [Min(0)]
+    [SerializeField] int maxAmmo = 20;
+    int ammo;
+    bool infiniteAmmo;
+
+    [Space(10)]
     [SerializeField] float bulletSpeed = 10f;
     [SerializeField] float fireRate = 1f;
 
-    private bool canShoot = true; // Aggiungiamo una variabile per controllare se è possibile sparare
+    bool canShoot = true; // Aggiungiamo una variabile per controllare se è possibile sparare
+
+
+
+    private void Awake()
+    {
+        FullyRechargeAmmo();
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && canShoot)
+        bool hasEnoughAmmo = ammo > 0;
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && hasEnoughAmmo && canShoot)
         {
             Shoot();
+
+            //Diminuisce le munizioni solo se ne ha limitate
+            if (!infiniteAmmo)
+                ammo--;
+
             canShoot = false; // Disabilita temporaneamente la possibilità di sparare
             Invoke("EnableShooting", fireRate); // Richiama EnableShooting dopo 1 secondo
         }
+
+
+        //Limita il numero di munizioni tra 0 e il massimo
+        ammo = Mathf.Clamp(ammo, 0, maxAmmo);
 
 
         #region Cambio del punto di sparo rispetto al mouse
@@ -70,6 +94,34 @@ public class ShootScript : MonoBehaviour
     {
         canShoot = true; // Abilita nuovamente la possibilità di sparare
     }
+
+
+    #region Funzioni Set Personalizzate
+
+    public void RechargeAmmo(int ammoToAdd)
+    {
+        ammo += ammoToAdd;    //Aggiunge alle munizioni
+    }
+    public void FullyRechargeAmmo()
+    {
+        ammo = maxAmmo;    //Mette le munizioni al massimo
+    }
+
+    public void SetInfiniteAmmo(bool value)
+    {
+        infiniteAmmo = value;
+    }
+
+    #endregion
+
+
+    #region Funzioni Get personalizzate
+
+    public int GetMaxAmmo() => maxAmmo;
+    public int GetAmmo() => ammo;
+    public bool GetHasInfiniteAmmo() => infiniteAmmo;
+
+    #endregion
 
 
 
