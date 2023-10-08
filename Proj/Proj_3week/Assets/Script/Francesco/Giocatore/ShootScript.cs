@@ -17,7 +17,6 @@ public class ShootScript : MonoBehaviour
     bool infiniteAmmo;
 
     [Space(10)]
-    [SerializeField] float bulletSpeed = 10f;
     [SerializeField] float fireRate = 1f;
 
     bool canShoot = true; // Aggiungiamo una variabile per controllare se è possibile sparare
@@ -81,13 +80,15 @@ public class ShootScript : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab,
-                                        realShootingPoint.position,
-                                        realShootingPoint.localRotation);
+            //Spara solo dall'alto
+            //se è entrato nella zona del boss
+        Transform whereToShoot = infiniteAmmo
+                                  ? upShootingPoint
+                                  : realShootingPoint; 
 
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-
-        rb.velocity = realShootingPoint.transform.right * bulletSpeed;
+        Instantiate(bulletPrefab,
+                    whereToShoot.position,
+                    whereToShoot.localRotation);
     }
 
     void EnableShooting()

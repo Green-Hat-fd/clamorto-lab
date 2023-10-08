@@ -9,7 +9,6 @@ public class EnemyShoot : Enemy
 
     [Space(10)]
     [SerializeField] float fireRate = 1f;
-    [SerializeField] float bulletSpeed = 10f;
     [SerializeField] Transform firePoint;
     [SerializeField] float maxShootDistance = 10f;
 
@@ -51,10 +50,6 @@ public class EnemyShoot : Enemy
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.transform.rotation = Quaternion.Euler(0, bulletYRot, 0);
-
-
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.velocity = transform.right * bulletSpeed;
 
 
         //Feedback

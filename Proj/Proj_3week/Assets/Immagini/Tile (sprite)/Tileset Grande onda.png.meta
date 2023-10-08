@@ -1,25 +1,34 @@
 fileFormatVersion: 2
-guid: 00f5468a7ccd8104d8b482f2ef037caa
+guid: aaab1245e2adb9f4dbd80693ba776dac
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4331569718482159361
-    second: Tile_ccs_dritto
+      213: 3006581089302133807
+    second: Tile_go_dritto-colonna
   - first:
-      213: -4935300381865944456
-    second: Tile_ccs_angolo-grande
+      213: -7122054435322046273
+    second: Tile_go_dritto
   - first:
-      213: 3724817421449643322
-    second: Tile_ccs_interno
+      213: 6409017242000692181
+    second: Tile_go_colonna-vuota
   - first:
-      213: -3019142175838080840
-    second: Tile_ccs_angolo-piccolo
+      213: -3415417683606922835
+    second: Tile_go_angolo-grande
   - first:
-      213: 2042709208287816547
-    second: "Tile set citt\xE0 che sale_4"
+      213: -4921577759437998560
+    second: Tile_go_colonna
   - first:
-      213: -8139698850185208127
-    second: Tile_ccs_angolo-grandee
+      213: -2469548948807749681
+    second: Tile_go_onde-colonna
+  - first:
+      213: -4782789263977613813
+    second: Tile_go_fine-dritto
+  - first:
+      213: 1039233877253483729
+    second: Tile_go_angolo-piccolo
+  - first:
+      213: 7978852150485938183
+    second: Tile_go_onde
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -64,7 +73,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 127
+  spritePixelsToUnits: 127.5
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -109,11 +118,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tile_ccs_dritto
+      name: Tile_go_dritto-colonna
       rect:
         serializedVersion: 2
-        x: 3
-        y: 213
+        x: 0
+        y: 384
         width: 128
         height: 128
       alignment: 0
@@ -123,18 +132,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 107c7f595b3dc1c30800000000000000
-      internalID: 4331569718482159361
+      spriteID: f2cb248329589b920800000000000000
+      internalID: 3006581089302133807
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tile_ccs_angolo-grande
+      name: Tile_go_dritto
       rect:
         serializedVersion: 2
-        x: 204
-        y: 213
+        x: 192
+        y: 384
         width: 128
         height: 128
       alignment: 0
@@ -144,18 +153,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87ad707737a428bb0800000000000000
-      internalID: -4935300381865944456
+      spriteID: fb852afa931692d90800000000000000
+      internalID: -7122054435322046273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tile_ccs_interno
+      name: Tile_go_colonna-vuota
       rect:
         serializedVersion: 2
-        x: 3
-        y: 3
+        x: 384
+        y: 384
         width: 128
         height: 128
       alignment: 0
@@ -165,18 +174,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3541bab5b531b330800000000000000
-      internalID: 3724817421449643322
+      spriteID: 5d31ec4a93761f850800000000000000
+      internalID: 6409017242000692181
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tile_ccs_angolo-piccolo
+      name: Tile_go_angolo-grande
       rect:
         serializedVersion: 2
-        x: 204
-        y: 3
+        x: 0
+        y: 192
         width: 128
         height: 128
       alignment: 0
@@ -186,8 +195,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b075caef2ad916d0800000000000000
-      internalID: -3019142175838080840
+      spriteID: da9950166bff990d0800000000000000
+      internalID: -3415417683606922835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_go_colonna
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0263c3a7a1b03bbb0800000000000000
+      internalID: -4921577759437998560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_go_onde-colonna
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 192
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcfefd6b0566abdd0800000000000000
+      internalID: -2469548948807749681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_go_fine-dritto
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b06ff05318e10adb0800000000000000
+      internalID: -4782789263977613813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_go_angolo-piccolo
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dcee3c84b91c6e00800000000000000
+      internalID: 1039233877253483729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_go_onde
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7007311d1c39abe60800000000000000
+      internalID: 7978852150485938183
       vertices: []
       indices: 
       edges: []

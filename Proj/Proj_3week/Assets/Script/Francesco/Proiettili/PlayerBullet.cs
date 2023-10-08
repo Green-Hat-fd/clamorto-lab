@@ -16,5 +16,12 @@ public class PlayerBullet : Bullet
             //Lo danneggia
             enemyCheck.En_TakeDamage(stats_SO.GetBulletDamage());
         }
+
+        if (collision.GetComponent<IPlayer>() == null)
+        {
+            //Toglie il proiettile
+            //(se non ha colpito il giocatore)
+            RemoveBullet();
+        }
     }
 }

@@ -75,7 +75,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         health = maxHealth;
         canBeDamaged = true;
         isDead = false;
-        deathCanvas?.gameObject.SetActive(false);
+        deathCanvas.gameObject.SetActive(false);
         stats_SO.SetCheckpointPos(transform.position);
 
         //Reset degli sprite
