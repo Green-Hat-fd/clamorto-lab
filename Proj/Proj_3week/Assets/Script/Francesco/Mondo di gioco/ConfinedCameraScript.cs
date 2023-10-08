@@ -110,6 +110,7 @@ public class ConfinedCameraScript : MonoBehaviour
     {
         isPlayerInBossZone = value;
     }
+    public bool GetIsPlayerInBossZone() => isPlayerInBossZone;
 
     public void SetBossZone_CamPos(Vector2 newPos)
     {

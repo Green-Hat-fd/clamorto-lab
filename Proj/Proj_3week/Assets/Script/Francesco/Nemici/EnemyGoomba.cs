@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EnemyGoomba : Enemy
 {
+    [Space(20)]
+    [SerializeField] float movementSpeed = 3.0f; // Velocità di movimento del nemico
     [SerializeField] Transform[] patrolPoints;
     int currentPatrolPoint = 0;
-    float movementSpeed = 3.0f; // Velocità di movimento del nemico
 
 
 

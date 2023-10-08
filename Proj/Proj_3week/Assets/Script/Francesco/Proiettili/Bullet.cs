@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour
 
     private void OnEnable()
     {
-        RemoveBullet();
+        RemoveBulletWithLife();
     }
 
     void FixedUpdate()
@@ -44,7 +44,11 @@ public class Bullet : MonoBehaviour
     }
 
 
-    void RemoveBullet()
+    protected void RemoveBullet()
+    {
+        Destroy(gameObject);
+    }
+    void RemoveBulletWithLife()
     {
         Destroy(gameObject, bulletLife);
     }
@@ -57,7 +61,7 @@ public class Bullet : MonoBehaviour
     {
         bulletLife = value;
 
-        RemoveBullet();
+        RemoveBulletWithLife();
     }
 
     public void SetBulletRotationVel(float value)

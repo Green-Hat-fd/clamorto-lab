@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 
 public class BossScript : Enemy
@@ -11,6 +12,7 @@ public class BossScript : Enemy
     [SerializeField] GameObject ballToSpawn;
     [SerializeField] float ballLife = 10;
     [Space(10)]
+    [SerializeField] Vector2 offset_ball;
     [SerializeField] float angleRange_ball = 90;
     [SerializeField] Vector2 secRange_ball = new Vector2(0.5f, 1.5f);
     [Space(10)]
@@ -20,7 +22,7 @@ public class BossScript : Enemy
     [SerializeField] GameObject fishToSpawn;
     [SerializeField] float fishLife = 10;
     [Space(10)]
-    [SerializeField] Vector2 offset = Vector2.down * 10;
+    [SerializeField] Vector2 offset_fish = Vector2.down * 10;
     [SerializeField] float spawnArea_fish = 25;
     [SerializeField] Vector2 secRange_fish = new Vector2(0.5f, 1.5f);
     [SerializeField] float upForce_fish = 15;
@@ -29,33 +31,37 @@ public class BossScript : Enemy
     bool doOnce_fish = true;
     List<GameObject> leatherBalls = new List<GameObject>();
 
-    [Header("—— Pesci che saltano ——")]
-    [SerializeField] SpriteRenderer bossSpr;
+    [Header("—— Movimento del Boss ——")]
     [SerializeField] float bossVelocity = 3.5f;
     [SerializeField] Transform leftPos, rightPos;
     Transform posToMove;
-    Transform bossSpr_tr;
+
+    [Header("—— Feedback ——")]
+    [SerializeField] ConfinedCameraScript confinedCamScr;
+    [Space(10)]
+    [SerializeField] Canvas bossCanvas;
+    [SerializeField] Slider bossHealthSl;
+    
+    Vector3 debug_startPos;
 
 
 
 
     void Awake()
     {
-        bossSpr_tr = bossSpr.transform;
-
         //Reset alla fase iniziale
         phaseNum = 0;
 
         //Prende la posizione iniziale
-        startPos = transform.position;
         posToMove = rightPos;
+        debug_startPos = transform.position;
     }
 
-    Vector3 startPos;
+
     void Update()
     {
         //Cambia la direzione rispetto a dove arriva
-        if(Vector2.Distance(bossSpr_tr.position, posToMove.position) < 0.05f)
+        if(Vector2.Distance(transform.position, posToMove.position) < 0.05f)
         {
             if (posToMove == leftPos)
                 posToMove = rightPos;
@@ -64,9 +70,9 @@ public class BossScript : Enemy
         }
 
         //Il movimento verso la direzione
-        bossSpr_tr.position = Vector2.MoveTowards(bossSpr_tr.position,
-                                                  posToMove.position,
-                                                  Time.deltaTime * bossVelocity); 
+        transform.position = Vector2.MoveTowards(transform.position,
+                                                 posToMove.position,
+                                                 Time.deltaTime * bossVelocity); 
 
 
         //Ogni volta che la vita scende dopo metà,
@@ -89,9 +95,10 @@ public class BossScript : Enemy
                     //Prende una rotazione a caso nel range dato
                     float randomRot = Random.Range(-angleRange_ball, angleRange_ball);
                     Quaternion ballRotation = Quaternion.Euler(0, 0, -90 + randomRot);
+                    Vector3 ballPos = transform.position + (Vector3)offset_ball;
 
                     //Crea la palla nella rotazione scelta
-                    GameObject ball = Instantiate(ballToSpawn, bossSpr_tr.position, ballRotation);
+                    GameObject ball = Instantiate(ballToSpawn, ballPos, ballRotation);
 
                     leatherBalls.Add(ball);
 
@@ -117,7 +124,7 @@ public class BossScript : Enemy
                 {
                     //Prende una posizione a caso nel range dato
                     float randomPos = Random.Range(-spawnArea_fish / 2, spawnArea_fish / 2);
-                    Vector3 startSpawnPoint = (Vector2)transform.position + offset,
+                    Vector3 startSpawnPoint = (Vector2)transform.position + offset_fish,
                             fishPosition = new Vector3(startSpawnPoint.x + randomPos,
                                                        startSpawnPoint.y,
                                                        transform.position.z);
@@ -164,9 +171,17 @@ public class BossScript : Enemy
         //Flippa lo sprite se si muove verso sinistra,
         //e torna normale se si muove verso destra
         if (posToMove == leftPos)
-            bossSpr_tr.rotation = leftRot;
+            transform.rotation = leftRot;
         else if (posToMove == rightPos)
-            bossSpr_tr.rotation = rightRot;
+            transform.rotation = rightRot;
+
+
+        //Nasconde la canvas del boss se il giocatore
+        //non si trova nella zona del boss
+        bossCanvas.gameObject.SetActive(confinedCamScr.GetIsPlayerInBossZone());
+
+        //Cambia lo slider della vita del boss
+        bossHealthSl.value = (float)health / maxHealth;
 
         #endregion
     }
@@ -201,6 +216,12 @@ public class BossScript : Enemy
     }
 
 
+    public void ResetBossHealth()
+    {
+        health = maxHealth;
+    }
+
+
     #region EXTRA - Cambiare l'inspector
 
     private void OnValidate()
@@ -228,10 +249,6 @@ public class BossScript : Enemy
     private void OnDrawGizmos()
     {
         //Disegna la linea dove il boss si muove
-        Vector3 bossSinPos = Application.isPlaying
-                        ? startPos
-                        : transform.position;
-
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(leftPos.position, rightPos.position);
     }
@@ -242,29 +259,29 @@ public class BossScript : Enemy
         Quaternion rotLimitLeft = Quaternion.Euler(0, 0, -angleRange_ball),
                    rotLimitRight = Quaternion.Euler(0, 0, angleRange_ball);
         Vector3 angleLimitLeft = rotLimitLeft * Vector3.down,
-                angleLimitRight = rotLimitRight * Vector3.down;
+                angleLimitRight = rotLimitRight * Vector3.down,
+                anglePos = transform.position + (Vector3)offset_ball;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(bossSpr.transform.position, angleLimitLeft * 3);
-        Gizmos.DrawRay(bossSpr.transform.position, angleLimitRight * 3);
+        Gizmos.DrawRay(anglePos, angleLimitLeft * 3);
+        Gizmos.DrawRay(anglePos, angleLimitRight * 3);
 
 
         //Disegna un rettangolo dove si trova l'area di spawn dei pesci
-        Vector3 fishBoxPos = transform.position + (Vector3)offset,
+        Vector3 fishBoxPos = !Application.isPlaying
+                               ? transform.position
+                               : debug_startPos,
                 fishBoxDim = Vector2.right * spawnArea_fish + Vector2.up;
+
+        fishBoxPos += (Vector3)offset_fish;
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(fishBoxPos, fishBoxDim);
-
-        Gizmos.color = Color.green * 0.5f;
-        fishBoxDim = new Vector3(fishBoxDim.x, 0);
-        Gizmos.DrawWireCube(fishBoxPos + Vector3.up * (upForce_fish / (fishToSpawn.GetComponent<Rigidbody2D>().mass)),
-                            fishBoxDim);
     }
 
 
     public float H_GetAngle() => angleRange_ball;
-    public SpriteRenderer H_GetBossSprite() => bossSpr;
+    public Vector3 H_GetAnglePos() => transform.position + (Vector3)offset_ball;
 
     #endregion
 }
@@ -280,7 +297,7 @@ public class BossHandles : Editor
         BossScript scr = (BossScript)target;
 
         Handles.color = Color.blue * 0.5f;
-        Handles.DrawSolidArc(scr.H_GetBossSprite().transform.position,
+        Handles.DrawSolidArc(scr.H_GetAnglePos(),
                              Vector3.forward,
                              Quaternion.Euler(0, 0, -scr.H_GetAngle()) * Vector3.down,
                              scr.H_GetAngle() * 2,

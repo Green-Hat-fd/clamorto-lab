@@ -13,5 +13,12 @@ public class EnemyBullet : Bullet
             //Lo danneggia
             playerCheck.Pl_TakeDamage();
         }
+
+        if (collision.GetComponent<IEnemy>() == null)
+        {
+            //Toglie il proiettile
+            //(se non ha colpito un nemico)
+            RemoveBullet();
+        }
     }
 }
