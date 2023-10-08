@@ -60,11 +60,8 @@ public class FakeParallaxEffect : MonoBehaviour
                   Mathf.Clamp(newPos_cam.x, limits_inWorld.x, limits_inWorld.y),
                   Mathf.Clamp(newPos_cam.y, limits_inWorld.x, limits_inWorld.y));
 
+
         transform.position = newPos_cam;
-
-
-        
-        
     }
 
     void FixedUpdate()
@@ -201,7 +198,7 @@ public class FakeParallaxEffect : MonoBehaviour
     private void OnValidate()
     {
         //Rende sempre la X sempre a destra della cam
-        //e la Y sempre alla sua destra
+        //e la Y sempre alla sua sinistra
         float camLimit = default;
 
         //Cambia il limite della telecamera
@@ -238,15 +235,17 @@ public class FakeParallaxEffect : MonoBehaviour
         _posMin = Application.isPlaying ? (Vector3)levelStartPos : _posMin;
         _posMax = Application.isPlaying ? (Vector3)levelEndPos : _posMax;
 
-        //Disegna un rettangolo dove il giocatore muore
+        //Disegna due linee dove la telecamera si può muovere
         Gizmos.color = Color.black;
         Gizmos.DrawWireCube(_posMin, _dim);
         Gizmos.DrawWireCube(_posMax, _dim);
 
+        //Disegna due sfere a metà schermo
+        //in orizzontale (blu) e in verticale (rossa)
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(-transform.right * (Camera.main.orthographicSize * Camera.main.aspect * 0.5f), 0.25f);
+        Gizmos.DrawSphere(transform.position + -transform.right * (Camera.main.orthographicSize * Camera.main.aspect * 0.5f), 0.25f);
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(-transform.up * (Camera.main.orthographicSize * 0.5f), 0.25f);
+        Gizmos.DrawSphere(transform.position + -transform.up * (Camera.main.orthographicSize * 0.5f), 0.25f);
     }
 
     #endregion

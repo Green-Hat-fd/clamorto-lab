@@ -44,7 +44,7 @@ public class BossScript : Enemy
         bossSpr_tr = bossSpr.transform;
 
         //Reset alla fase iniziale
-        phaseNum = 1;
+        phaseNum = 0;
 
         //Prende la posizione iniziale
         startPos = transform.position;
@@ -82,8 +82,7 @@ public class BossScript : Enemy
 
         switch (phaseNum)
         {
-            //--Fase Palle di Pelle--//
-            default:
+            //---Fase Palle di Pelle---//
             case 1:
                 if (doOnce_ball)
                 {
@@ -95,7 +94,10 @@ public class BossScript : Enemy
                     GameObject ball = Instantiate(ballToSpawn, bossSpr_tr.position, ballRotation);
 
                     leatherBalls.Add(ball);
-                    ball.GetComponent<EnemyBullet>().SetBulletLife(ballLife);
+
+                    EnemyBullet enBull = ball.GetComponent<EnemyBullet>();
+                    enBull.SetBulletRotationVel(ballRotatVel);
+                    enBull.SetBulletLife_RemoveIt(ballLife);
 
 
 
@@ -109,7 +111,7 @@ public class BossScript : Enemy
                 break;
 
 
-            //--Fase Pesci--//
+            //---Fase Pesci---//
             case 2:
                 if (doOnce_fish)
                 {
@@ -123,7 +125,7 @@ public class BossScript : Enemy
                     //Crea la palla nella rotazione scelta
                     GameObject fish = Instantiate(fishToSpawn, fishPosition, Quaternion.Euler(Vector3.up));
 
-                    fish.GetComponent<EnemyBullet>().SetBulletLife(fishLife);
+                    fish.GetComponent<EnemyBullet>().SetBulletLife_RemoveIt(fishLife);
 
                     //Fa saltare il pesce verso l'alto
                     fish.GetComponent<Rigidbody2D>().AddForce(Vector3.up * upForce_fish,
@@ -141,7 +143,7 @@ public class BossScript : Enemy
                 break;
 
 
-            //--Morte--//
+            //---Morte---//
             case -1:
                 StopAllCoroutines();    //Ferma tutti gli attacchi
 
@@ -151,14 +153,6 @@ public class BossScript : Enemy
         }
 
         #endregion
-
-
-        //Ruota le palle-proiettili
-        foreach (GameObject _ball in leatherBalls)
-        {
-            Transform spr = _ball.GetComponentInChildren<SpriteRenderer>().transform;
-            spr.rotation *= Quaternion.Euler(0, 0, ballRotatVel);
-        }
 
 
         #region Feedback
