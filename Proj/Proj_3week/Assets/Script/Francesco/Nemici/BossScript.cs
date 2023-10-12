@@ -26,6 +26,8 @@ public class BossScript : Enemy
     [SerializeField] float spawnArea_fish = 25;
     [SerializeField] Vector2 secRange_fish = new Vector2(0.5f, 1.5f);
     [SerializeField] float upForce_fish = 15;
+    [Space(10)]
+    [SerializeField] List<Sprite> fishSprites;
 
     bool doOnce_ball = true;
     bool doOnce_fish = true;
@@ -80,8 +82,8 @@ public class BossScript : Enemy
         phaseNum =  health <= 0
                     ? -1
                     : health > maxHealth/2
-                        ? 1
-                        : 2;
+                        ? 2
+                        : 2;                                                            //TODO: sistema, metti ? 1 : 2;
 
 
         #region Sistemazione delle fasi
@@ -128,11 +130,16 @@ public class BossScript : Enemy
                             fishPosition = new Vector3(startSpawnPoint.x + randomPos,
                                                        startSpawnPoint.y,
                                                        transform.position.z);
+                    int randomIndex = Random.Range(0, fishSprites.Count);
+                    Sprite randFish = fishSprites[randomIndex];
 
                     //Crea la palla nella rotazione scelta
                     GameObject fish = Instantiate(fishToSpawn, fishPosition, Quaternion.Euler(Vector3.up));
 
+                        //Cambia la "vita" del "proiettile"
                     fish.GetComponent<EnemyBullet>().SetBulletLife_RemoveIt(fishLife);
+                        //Cambia lo sprite del "proiettile"
+                    fish.GetComponentInChildren<SpriteRenderer>().sprite = randFish;
 
                     //Fa saltare il pesce verso l'alto
                     fish.GetComponent<Rigidbody2D>().AddForce(Vector3.up * upForce_fish,

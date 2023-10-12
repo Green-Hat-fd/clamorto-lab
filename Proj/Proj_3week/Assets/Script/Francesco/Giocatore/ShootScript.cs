@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ShootScript : MonoBehaviour
 {
-    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject bulletPrefab,
+                                boostedBulletPrefab;
     [SerializeField] Transform leftShootingPoint,
                                rightShootingPoint,
                                upShootingPoint;
@@ -14,7 +15,8 @@ public class ShootScript : MonoBehaviour
     [Min(0)]
     [SerializeField] int maxAmmo = 20;
     int ammo;
-    bool infiniteAmmo;
+    bool isShootBoostActive,
+         infiniteAmmo;
 
     [Space(10)]
     [SerializeField] float fireRate = 1f;
@@ -34,14 +36,19 @@ public class ShootScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && hasEnoughAmmo && canShoot)
         {
-            Shoot();
+            //Spara il proiettile normale,
+            //oppure spara quello potenziato
+            //se ha il potenziamento attivo
+            Shoot(isShootBoostActive
+                   ? boostedBulletPrefab
+                   : bulletPrefab);
 
             //Diminuisce le munizioni solo se ne ha limitate
             if (!infiniteAmmo)
                 ammo--;
 
             canShoot = false; // Disabilita temporaneamente la possibilità di sparare
-            Invoke("EnableShooting", fireRate); // Richiama EnableShooting dopo 1 secondo
+            Invoke(nameof(EnableShooting), fireRate); // Richiama EnableShooting dopo quanto deve ri-sparare
         }
 
 
@@ -78,7 +85,7 @@ public class ShootScript : MonoBehaviour
         #endregion
     }
 
-    void Shoot()
+    void Shoot(GameObject bullet)
     {
             //Spara solo dall'alto
             //se è entrato nella zona del boss
@@ -86,7 +93,7 @@ public class ShootScript : MonoBehaviour
                                   ? upShootingPoint
                                   : realShootingPoint; 
 
-        Instantiate(bulletPrefab,
+        Instantiate(bullet,
                     whereToShoot.position,
                     whereToShoot.localRotation);
     }
@@ -106,6 +113,11 @@ public class ShootScript : MonoBehaviour
     public void FullyRechargeAmmo()
     {
         ammo = maxAmmo;    //Mette le munizioni al massimo
+    }
+
+    public void SetIsShootBoostActive(bool value)
+    {
+        isShootBoostActive = value;
     }
 
     public void SetInfiniteAmmo(bool value)

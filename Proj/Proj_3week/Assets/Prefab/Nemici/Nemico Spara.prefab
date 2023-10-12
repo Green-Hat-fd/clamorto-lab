@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1870837231231094539}
+  - component: {fileID: 3521584304708404537}
   - component: {fileID: 1383594194305112686}
+  - component: {fileID: 8050681371931141643}
   - component: {fileID: 6612722876549889207}
   m_Layer: 0
   m_Name: Nemico Spara
@@ -34,8 +36,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1383594194305112686
-BoxCollider2D:
+--- !u!70 &3521584304708404537
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -47,7 +49,23 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.1}
+  m_Size: {x: 0.75, y: 2.1}
+  m_Direction: 0
+--- !u!61 &1383594194305112686
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096215323523549192}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.92}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -58,8 +76,29 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.8, y: 0.8}
+  m_Size: {x: 0.58, y: 0.3}
   m_EdgeRadius: 0
+--- !u!50 &8050681371931141643
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096215323523549192}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 100
+  m_LinearDrag: 2
+  m_AngularDrag: 0.05
+  m_GravityScale: 2
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &6612722876549889207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +116,6 @@ MonoBehaviour:
   scoreAtDeath: 0
   bulletPrefab: {fileID: 6244939307192460750, guid: 4601f7d8799c1734195908ca127ee8e9, type: 3}
   fireRate: 1
-  bulletSpeed: 4.5
   firePoint: {fileID: 2668270558479649079}
   maxShootDistance: 6.5
   enAnim: {fileID: 0}

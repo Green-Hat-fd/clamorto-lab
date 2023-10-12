@@ -12,13 +12,14 @@ public class EnemyShoot : Enemy
     [SerializeField] Transform firePoint;
     [SerializeField] float maxShootDistance = 10f;
 
-    private float nextFireTime;
+    bool canShoot = true;
     [SerializeField] Animator enAnim;
 
 
     private void Awake()
     {
         player = FindObjectOfType<PlayerMovRB>().transform;
+        canShoot = true;
     }
 
     void Update()
@@ -26,7 +27,8 @@ public class EnemyShoot : Enemy
         // Calcola la distanza tra il nemico e il giocatore
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= maxShootDistance && Time.time >= nextFireTime)
+
+        if (distanceToPlayer <= maxShootDistance)    //Se il giocatore è abbastanza vicino...
         {
             // Calcola la direzione verso il giocatore
             Vector3 direction = (player.position - transform.position).normalized;
@@ -40,9 +42,14 @@ public class EnemyShoot : Enemy
             // Imposta la rotazione dell'oggetto in base all'angolo calcolato
             transform.rotation = Quaternion.Euler(0, angle, 0);
 
-            Shoot(angle);
 
-            nextFireTime = Time.time + 1f / fireRate;
+            if (canShoot)
+            {
+                Shoot(angle);
+
+                canShoot = false;
+                Invoke(nameof(EnableCanShoot), fireRate);
+            }
         }
     }
 
@@ -53,7 +60,12 @@ public class EnemyShoot : Enemy
 
 
         //Feedback
-        enAnim.SetTrigger("Shoot");
+        //enAnim.SetTrigger("Shoot");
+    }
+
+    void EnableCanShoot()
+    {
+        canShoot = true;
     }
 
 

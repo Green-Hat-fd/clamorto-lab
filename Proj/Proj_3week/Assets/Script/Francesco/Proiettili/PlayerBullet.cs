@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerBullet : Bullet
 {
-    [SerializeField] PlayerStatsSO_Script stats_SO;
+    [Space(20)]
+    [Min(1)]
+    [SerializeField] int bulletDamage = 1;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -14,7 +16,7 @@ public class PlayerBullet : Bullet
         if (enemyCheck != null)    //Se colpisce il nemico
         {
             //Lo danneggia
-            enemyCheck.En_TakeDamage(stats_SO.GetBulletDamage());
+            enemyCheck.En_TakeDamage(bulletDamage);
         }
 
         if (collision.GetComponent<IPlayer>() == null)

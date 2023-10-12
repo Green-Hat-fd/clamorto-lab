@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: PlayerStats_SO
   m_EditorClassIdentifier: 
   score: 0
-  howManyCollectableTaken: 0
-  maxCollectableToTake: 4
-  timeSpeed_TimerPowUp: 0.5
+  checkpointPos: {x: 0, y: 0, z: 0}
+  isLevelOneCompleted: 0
+  isLevelTwoCompleted: 0
+  isBossLevelCompleted: 0
+  bigShoot_powerUpDuration: 0

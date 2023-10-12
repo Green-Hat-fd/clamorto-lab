@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &267869280168186066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6082883518419484060}
+  - component: {fileID: 4099723762750034876}
+  m_Layer: 0
+  m_Name: PowerUp Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6082883518419484060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267869280168186066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1107617013938787916}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4099723762750034876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267869280168186066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c039931f07de6444db8fa9382bb61b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
+  statsMng: {fileID: 6313940707530754014}
+  shootScr: {fileID: 6070704244516458184}
 --- !u!1 &538398870743631532
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +174,7 @@ Transform:
   - {fileID: 9012649632311281379}
   - {fileID: 1227941655027953591}
   - {fileID: 5214452883536013489}
+  - {fileID: 6082883518419484060}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,7 +193,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.5
+  m_GravityScale: 1.75
   m_Material: {fileID: 6200000, guid: d9e7f1fe80a57874fa567754ae73a5ff, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -181,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerVel: 7.5
-  jumpPower: 8.5
+  jumpPower: 9.5
   limitGroundCheck: 0.05
   boxcastDim: {x: 0.9, y: 0.1}
   playerSpr: {fileID: 3608740048299418003}
@@ -206,7 +253,7 @@ MonoBehaviour:
   deathSfx: {fileID: 0}
   fakeDeathCanvas: {fileID: 0}
   deathCanvas: {fileID: 0}
-  normalSpr: {fileID: 0}
+  normalSpr: {fileID: 3608740048299418003}
   deathSpr: {fileID: 0}
   jumpSfx: {fileID: 0}
   powUpPickUpSfx: {fileID: 0}
@@ -228,6 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6244939307192460750, guid: e4f590c7ba000b24495eb663238b379a, type: 3}
+  boostedBulletPrefab: {fileID: 6244939307192460750, guid: 42d5cfc7e115da249b65b7716812fdfd, type: 3}
   leftShootingPoint: {fileID: 4480284936134348192}
   rightShootingPoint: {fileID: 4103084851058769716}
   upShootingPoint: {fileID: 4964007422748962790}

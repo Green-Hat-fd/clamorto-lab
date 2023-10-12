@@ -47,6 +47,9 @@ public class Enemy : MonoBehaviour, IEnemy
         {
             //Danneggia il nemico
             En_TakeDamage(int.MaxValue);
+
+            //Fa saltare leggermente il giocatore
+            collision.GetComponent<PlayerMovRB>().Jump(6.5f);
         }
     }
 

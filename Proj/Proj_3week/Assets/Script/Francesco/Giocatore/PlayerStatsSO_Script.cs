@@ -13,12 +13,8 @@ public class PlayerStatsSO_Script : ScriptableObject
     [SerializeField] bool isLevelTwoCompleted = false;
     [SerializeField] bool isBossLevelCompleted = false;
 
-    [Header("—— Inventario ——")]
-    //[SerializeField] PowerUp.PowerUpType_Enum activePowerUp;
-    float powerUpDuration;
-
-    [Header("—— Danno ——")]
-    [SerializeField] int bulletDamage = 1;
+    [Header("—— Power-Up ——")]
+    [SerializeField] float bigShoot_powerUpDuration;
 
 
 
@@ -47,11 +43,6 @@ public class PlayerStatsSO_Script : ScriptableObject
         isBossLevelCompleted = value;
     }
 
-    public void SetBulletDamage(int newDmg)
-    {
-        bulletDamage = newDmg;
-    }
-
     #endregion
 
 
@@ -68,38 +59,15 @@ public class PlayerStatsSO_Script : ScriptableObject
     //public PowerUp.PowerUpType_Enum GetPowerToUse() => powerUp_toUse;
     //public PowerUp.PowerUpType_Enum GetActivePowerUp() => activePowerUp;
 
-    public float GetPowerUpDuration()
+    public float GetBigShoot_PowerUpDuration()
     {
-        return powerUpDuration;
+        return bigShoot_powerUpDuration;
     }
-
-    public int GetBulletDamage() => bulletDamage;
 
     #endregion
 
 
     #region Funzioni Reset
-
-    /*public void ResetPowerUps()
-    {
-        powerUp_toUse = POW_EMPTY;
-        activePowerUp = POW_EMPTY;
-    }
-
-    public void ResetActivePowerUp()
-    {
-        activePowerUp = POW_EMPTY;
-    }//*/
-
-    public void ResetPowerUpDuration()
-    {
-        powerUpDuration = 0;
-    }
-
-    public void ResetBulletDamage()
-    {
-        bulletDamage = 1;
-    }
 
     public void ResetScore()
     {
