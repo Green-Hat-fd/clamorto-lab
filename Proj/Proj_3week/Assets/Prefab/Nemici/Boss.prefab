@@ -288,7 +288,11 @@ MonoBehaviour:
   offset_fish: {x: 0, y: -10}
   spawnArea_fish: 25
   secRange_fish: {x: 0.5, y: 1.5}
-  upForce_fish: 15
+  upForce_fish: 13.5
+  fishSprites:
+  - {fileID: 21300000, guid: 5006f4af672bbeb4d856980c8f2a6c2f, type: 3}
+  - {fileID: 21300000, guid: 84d798e78090806478ef26e7da1ce071, type: 3}
+  - {fileID: 21300000, guid: f6c9cd0f6835f4f4d8d78927276330f6, type: 3}
   bossVelocity: 3.5
   leftPos: {fileID: 7717171910995878020}
   rightPos: {fileID: 7717171910360416957}

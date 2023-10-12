@@ -1136,9 +1136,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 0
   bulletLife: 3.4028235e+38
-  canRotate: 0
-  rotatingSpr: {fileID: 0}
-  rotatVel: 0
 --- !u!61 &1905061284
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11720,22 +11717,6 @@ PrefabInstance:
       propertyPath: confinedCamScr
       value: 
       objectReference: {fileID: 519420033}
-    - target: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
-      propertyPath: fishSprites.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
-      propertyPath: fishSprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: e60718119cec31e4190849292fcde068, type: 3}
-    - target: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
-      propertyPath: fishSprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: bb51334c6930f864abac38001f7bdf6e, type: 3}
-    - target: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
-      propertyPath: fishSprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: 8afb57fea8c4eea4a8085e91c810380b, type: 3}
     - target: {fileID: 6531026918911472908, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

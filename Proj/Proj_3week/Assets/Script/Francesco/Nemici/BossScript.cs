@@ -31,7 +31,6 @@ public class BossScript : Enemy
 
     bool doOnce_ball = true;
     bool doOnce_fish = true;
-    List<GameObject> leatherBalls = new List<GameObject>();
 
     [Header("—— Movimento del Boss ——")]
     [SerializeField] float bossVelocity = 3.5f;
@@ -44,7 +43,7 @@ public class BossScript : Enemy
     [SerializeField] Canvas bossCanvas;
     [SerializeField] Slider bossHealthSl;
     
-    Vector3 debug_startPos;
+    Vector3 startPos;
 
 
 
@@ -56,7 +55,7 @@ public class BossScript : Enemy
 
         //Prende la posizione iniziale
         posToMove = rightPos;
-        debug_startPos = transform.position;
+        startPos = transform.position;
     }
 
 
@@ -82,8 +81,8 @@ public class BossScript : Enemy
         phaseNum =  health <= 0
                     ? -1
                     : health > maxHealth/2
-                        ? 2
-                        : 2;                                                            //TODO: sistema, metti ? 1 : 2;
+                        ? 1
+                        : 2;
 
 
         #region Sistemazione delle fasi
@@ -99,14 +98,14 @@ public class BossScript : Enemy
                     Quaternion ballRotation = Quaternion.Euler(0, 0, -90 + randomRot);
                     Vector3 ballPos = transform.position + (Vector3)offset_ball;
 
+
                     //Crea la palla nella rotazione scelta
                     GameObject ball = Instantiate(ballToSpawn, ballPos, ballRotation);
 
-                    leatherBalls.Add(ball);
-
-                    EnemyBullet enBull = ball.GetComponent<EnemyBullet>();
-                    enBull.SetBulletRotationVel(ballRotatVel);
-                    enBull.SetBulletLife_RemoveIt(ballLife);
+                    //Cambia le impostazioni del "proiettile"
+                    BossBullet bossBull = ball.GetComponent<BossBullet>();
+                    bossBull.SetRotationVel(ballRotatVel);
+                    bossBull.SetBulletLife_RemoveIt(ballLife);
 
 
 
@@ -126,20 +125,24 @@ public class BossScript : Enemy
                 {
                     //Prende una posizione a caso nel range dato
                     float randomPos = Random.Range(-spawnArea_fish / 2, spawnArea_fish / 2);
-                    Vector3 startSpawnPoint = (Vector2)transform.position + offset_fish,
+
+                    Vector3 startSpawnPoint = (Vector2)startPos + offset_fish,
+
                             fishPosition = new Vector3(startSpawnPoint.x + randomPos,
                                                        startSpawnPoint.y,
-                                                       transform.position.z);
+                                                       startPos.z);
+                    
                     int randomIndex = Random.Range(0, fishSprites.Count);
                     Sprite randFish = fishSprites[randomIndex];
 
-                    //Crea la palla nella rotazione scelta
+
+                    //Crea il pesce nella posizione scelta
                     GameObject fish = Instantiate(fishToSpawn, fishPosition, Quaternion.Euler(Vector3.up));
 
-                        //Cambia la "vita" del "proiettile"
-                    fish.GetComponent<EnemyBullet>().SetBulletLife_RemoveIt(fishLife);
-                        //Cambia lo sprite del "proiettile"
-                    fish.GetComponentInChildren<SpriteRenderer>().sprite = randFish;
+                    //Cambia le impostazioni del "proiettile"
+                    BossBullet bossBull = fish.GetComponent<BossBullet>();
+                    bossBull.SetBulletLife_RemoveIt(fishLife);
+                    bossBull.SetFishSprite(randFish);            //Cambia lo sprite del "proiettile"
 
                     //Fa saltare il pesce verso l'alto
                     fish.GetComponent<Rigidbody2D>().AddForce(Vector3.up * upForce_fish,
@@ -277,13 +280,21 @@ public class BossScript : Enemy
         //Disegna un rettangolo dove si trova l'area di spawn dei pesci
         Vector3 fishBoxPos = !Application.isPlaying
                                ? transform.position
-                               : debug_startPos,
+                               : startPos,
                 fishBoxDim = Vector2.right * spawnArea_fish + Vector2.up;
 
         fishBoxPos += (Vector3)offset_fish;
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(fishBoxPos, fishBoxDim);
+
+        //TODO: fai la linea a dove si dovrebbero fermare i pesci
+        /*
+        fishBoxPos += transform.up * upForce_fish * 0.7f;
+        fishBoxDim.y = 0;
+
+        Gizmos.color = Color.green * 0.5f;
+        Gizmos.DrawWireCube(fishBoxPos, fishBoxDim);//*/
     }
 
 

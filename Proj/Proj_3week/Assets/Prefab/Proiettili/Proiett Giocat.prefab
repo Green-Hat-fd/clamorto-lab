@@ -125,7 +125,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -145,7 +145,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 12.5
   bulletLife: 6.5
-  canRotate: 0
-  rotatingSpr: {fileID: 0}
-  rotatVel: 0
-  stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
+  bulletDamage: 1
