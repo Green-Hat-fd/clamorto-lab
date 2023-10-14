@@ -31,6 +31,7 @@ public class BossScript : Enemy
 
     bool doOnce_ball = true;
     bool doOnce_fish = true;
+    bool doOnce_death = true;
 
     [Header("—— Movimento del Boss ——")]
     [SerializeField] float bossVelocity = 3.5f;
@@ -62,7 +63,9 @@ public class BossScript : Enemy
     void Update()
     {
         //Cambia la direzione rispetto a dove arriva
-        if(Vector2.Distance(transform.position, posToMove.position) < 0.05f)
+        float distToPos = Vector2.Distance(transform.position, posToMove.position);
+
+        if(distToPos < 0.05f)
         {
             if (posToMove == leftPos)
                 posToMove = rightPos;
@@ -70,10 +73,13 @@ public class BossScript : Enemy
                 posToMove = leftPos;
         }
 
-        //Il movimento verso la direzione
-        transform.position = Vector2.MoveTowards(transform.position,
-                                                 posToMove.position,
-                                                 Time.deltaTime * bossVelocity); 
+        //Il movimento verso la direzione (se non è morto)
+        if(phaseNum != -1)
+        {
+            transform.position = Vector2.MoveTowards(transform.position,
+                                                     posToMove.position,
+                                                     Time.deltaTime * bossVelocity);
+        }
 
 
         //Ogni volta che la vita scende dopo metà,
@@ -162,10 +168,16 @@ public class BossScript : Enemy
 
             //---Morte---//
             case -1:
-                StopAllCoroutines();    //Ferma tutti gli attacchi
+                if (doOnce_death)
+                {
+                    StopAllCoroutines();    //Ferma tutti gli attacchi
 
-                WaitAndFinishBoss();    //Fa gli effetti di morte e poi
-                                        //mostra lo schermo di vittoria
+                    StartCoroutine(WaitAndFinishBoss());    //Fa gli effetti di morte e poi
+                                                            //mostra lo schermo di vittoria
+
+
+                    doOnce_death = false;
+                }
                 break;
         }
 

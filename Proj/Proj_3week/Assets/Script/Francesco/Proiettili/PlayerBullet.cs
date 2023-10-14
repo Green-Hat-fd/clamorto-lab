@@ -19,7 +19,9 @@ public class PlayerBullet : Bullet
             enemyCheck.En_TakeDamage(bulletDamage);
         }
 
-        if (collision.GetComponent<IPlayer>() == null)
+        if (collision.GetComponent<IPlayer>() == null
+            &&
+            collision.GetComponent<BossBullet>() == null)
         {
             //Toglie il proiettile
             //(se non ha colpito il giocatore)

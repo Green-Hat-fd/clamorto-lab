@@ -6,12 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerStatsManager : MonoBehaviour, IPlayer
 {
-    #region Classi
-
-
-
-    #endregion
-
     DeathManager deathMng;
     PlayerMovRB playerMovScr;
 
@@ -37,11 +31,13 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] AudioSource deathSfx;
     [SerializeField] Canvas fakeDeathCanvas,
                             deathCanvas;
+    [SerializeField] Color invColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] SpriteRenderer normalSpr;
     [SerializeField] SpriteRenderer deathSpr;
 
     [Space(10)]
     [SerializeField] AudioSource jumpSfx;
+    [SerializeField] AudioSource damageSfx;
     [SerializeField] AudioSource powUpPickUpSfx;
     [Space(5)]
     [SerializeField] AudioSource collectablePickUpSfx;
@@ -121,11 +117,16 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             //maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
         }
 
+        #endregion
 
+
+        #region Feedback
+
+        //Cambia lo sprite quando
+        //può essere danneggiato
         normalSpr.color = canBeDamaged
                            ? Color.white
-                           : Color.red;
-
+                           : invColor;
 
         #endregion
     }
@@ -152,6 +153,14 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             else if (health - 1 >= 0)     //Se ha ancora punti vita
             {
                 health--;
+
+
+                #region Feedback
+
+                damageSfx.Play();
+
+                #endregion
+
 
                 canBeDamaged = false;
                 Invoke(nameof(EnableCanBeDamaged), invSec);
@@ -180,10 +189,22 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             if (lives <= 0)    //Se NON hai più vite
             {
                 Die_RespawnFromCheckpoint();
+
+                #region Feedback
+
+                //TODO
+
+                #endregion
             }
             else    //Se hai ancora altre vite
             {
                 Pl_Die();
+
+                #region Feedback
+
+                //TODO
+
+                #endregion
             }
         }
     }
