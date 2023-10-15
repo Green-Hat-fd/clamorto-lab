@@ -37,8 +37,10 @@ public class PiattaformaDistruggibile : MonoBehaviour
 
 
         //Feedback
+        float percentTimer = timer / tempoDistruggi;
+
         piattafAnim.SetBool("GiocatoreSopra", contattoConGiocatore);
-        piattafAnim.SetBool("PocoTempoRimasto", tempoDistruggi - timer <= 1.25f);
+        piattafAnim.SetBool("PocoTempoRimasto", percentTimer >= 0.67f);
     }
 
 
@@ -60,7 +62,7 @@ public class PiattaformaDistruggibile : MonoBehaviour
         {
             contattoConGiocatore = false;
 
-            timer = 0;
+            //timer = 0;
             piattafSpr.color = Color.white;
         }
     }
