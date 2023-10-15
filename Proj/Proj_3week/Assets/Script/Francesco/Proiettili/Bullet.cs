@@ -10,12 +10,6 @@ public class Bullet : MonoBehaviour
     [Min(0)]
     [SerializeField] float bulletLife = 5;
 
-    [Space(20)]
-    [SerializeField] bool canRotate;
-    [SerializeField] SpriteRenderer rotatingSpr;
-    [Min(0)]
-    [SerializeField] float rotatVel;
-
 
 
     private void Awake()
@@ -28,19 +22,10 @@ public class Bullet : MonoBehaviour
         RemoveBulletWithLife();
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        //Muove il proiettile verso destra
+        //Muove costantemente il proiettile verso destra
         transform.position += transform.right * projectileSpeed * Time.deltaTime;
-
-
-        //Ruota lo sprite solo se può ruotare
-        if (canRotate)
-        {
-            Vector3 axisRot = Vector3.forward * rotatVel;
-            
-            rotatingSpr.transform.rotation *= Quaternion.Euler(axisRot);
-        }
     }
 
 
@@ -62,10 +47,5 @@ public class Bullet : MonoBehaviour
         bulletLife = value;
 
         RemoveBulletWithLife();
-    }
-
-    public void SetBulletRotationVel(float value)
-    {
-        rotatVel = value;
     }
 }

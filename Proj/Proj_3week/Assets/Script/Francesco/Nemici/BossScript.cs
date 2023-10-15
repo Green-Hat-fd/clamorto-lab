@@ -26,10 +26,12 @@ public class BossScript : Enemy
     [SerializeField] float spawnArea_fish = 25;
     [SerializeField] Vector2 secRange_fish = new Vector2(0.5f, 1.5f);
     [SerializeField] float upForce_fish = 15;
+    [Space(10)]
+    [SerializeField] List<Sprite> fishSprites;
 
     bool doOnce_ball = true;
     bool doOnce_fish = true;
-    List<GameObject> leatherBalls = new List<GameObject>();
+    bool doOnce_death = true;
 
     [Header("—— Movimento del Boss ——")]
     [SerializeField] float bossVelocity = 3.5f;
@@ -42,7 +44,7 @@ public class BossScript : Enemy
     [SerializeField] Canvas bossCanvas;
     [SerializeField] Slider bossHealthSl;
     
-    Vector3 debug_startPos;
+    Vector3 startPos;
 
 
 
@@ -54,14 +56,16 @@ public class BossScript : Enemy
 
         //Prende la posizione iniziale
         posToMove = rightPos;
-        debug_startPos = transform.position;
+        startPos = transform.position;
     }
 
 
     void Update()
     {
         //Cambia la direzione rispetto a dove arriva
-        if(Vector2.Distance(transform.position, posToMove.position) < 0.05f)
+        float distToPos = Vector2.Distance(transform.position, posToMove.position);
+
+        if(distToPos < 0.05f)
         {
             if (posToMove == leftPos)
                 posToMove = rightPos;
@@ -69,10 +73,13 @@ public class BossScript : Enemy
                 posToMove = leftPos;
         }
 
-        //Il movimento verso la direzione
-        transform.position = Vector2.MoveTowards(transform.position,
-                                                 posToMove.position,
-                                                 Time.deltaTime * bossVelocity); 
+        //Il movimento verso la direzione (se non è morto)
+        if(phaseNum != -1)
+        {
+            transform.position = Vector2.MoveTowards(transform.position,
+                                                     posToMove.position,
+                                                     Time.deltaTime * bossVelocity);
+        }
 
 
         //Ogni volta che la vita scende dopo metà,
@@ -97,14 +104,14 @@ public class BossScript : Enemy
                     Quaternion ballRotation = Quaternion.Euler(0, 0, -90 + randomRot);
                     Vector3 ballPos = transform.position + (Vector3)offset_ball;
 
+
                     //Crea la palla nella rotazione scelta
                     GameObject ball = Instantiate(ballToSpawn, ballPos, ballRotation);
 
-                    leatherBalls.Add(ball);
-
-                    EnemyBullet enBull = ball.GetComponent<EnemyBullet>();
-                    enBull.SetBulletRotationVel(ballRotatVel);
-                    enBull.SetBulletLife_RemoveIt(ballLife);
+                    //Cambia le impostazioni del "proiettile"
+                    BossBullet bossBull = ball.GetComponent<BossBullet>();
+                    bossBull.SetRotationVel(ballRotatVel);
+                    bossBull.SetBulletLife_RemoveIt(ballLife);
 
 
 
@@ -124,15 +131,24 @@ public class BossScript : Enemy
                 {
                     //Prende una posizione a caso nel range dato
                     float randomPos = Random.Range(-spawnArea_fish / 2, spawnArea_fish / 2);
-                    Vector3 startSpawnPoint = (Vector2)transform.position + offset_fish,
+
+                    Vector3 startSpawnPoint = (Vector2)startPos + offset_fish,
+
                             fishPosition = new Vector3(startSpawnPoint.x + randomPos,
                                                        startSpawnPoint.y,
-                                                       transform.position.z);
+                                                       startPos.z);
+                    
+                    int randomIndex = Random.Range(0, fishSprites.Count);
+                    Sprite randFish = fishSprites[randomIndex];
 
-                    //Crea la palla nella rotazione scelta
+
+                    //Crea il pesce nella posizione scelta
                     GameObject fish = Instantiate(fishToSpawn, fishPosition, Quaternion.Euler(Vector3.up));
 
-                    fish.GetComponent<EnemyBullet>().SetBulletLife_RemoveIt(fishLife);
+                    //Cambia le impostazioni del "proiettile"
+                    BossBullet bossBull = fish.GetComponent<BossBullet>();
+                    bossBull.SetBulletLife_RemoveIt(fishLife);
+                    bossBull.SetFishSprite(randFish);            //Cambia lo sprite del "proiettile"
 
                     //Fa saltare il pesce verso l'alto
                     fish.GetComponent<Rigidbody2D>().AddForce(Vector3.up * upForce_fish,
@@ -152,10 +168,16 @@ public class BossScript : Enemy
 
             //---Morte---//
             case -1:
-                StopAllCoroutines();    //Ferma tutti gli attacchi
+                if (doOnce_death)
+                {
+                    StopAllCoroutines();    //Ferma tutti gli attacchi
 
-                WaitAndFinishBoss();    //Fa gli effetti di morte e poi
-                                        //mostra lo schermo di vittoria
+                    StartCoroutine(WaitAndFinishBoss());    //Fa gli effetti di morte e poi
+                                                            //mostra lo schermo di vittoria
+
+
+                    doOnce_death = false;
+                }
                 break;
         }
 
@@ -270,13 +292,21 @@ public class BossScript : Enemy
         //Disegna un rettangolo dove si trova l'area di spawn dei pesci
         Vector3 fishBoxPos = !Application.isPlaying
                                ? transform.position
-                               : debug_startPos,
+                               : startPos,
                 fishBoxDim = Vector2.right * spawnArea_fish + Vector2.up;
 
         fishBoxPos += (Vector3)offset_fish;
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(fishBoxPos, fishBoxDim);
+
+        //TODO: fai la linea a dove si dovrebbero fermare i pesci
+        /*
+        fishBoxPos += transform.up * upForce_fish * 0.7f;
+        fishBoxDim.y = 0;
+
+        Gizmos.color = Color.green * 0.5f;
+        Gizmos.DrawWireCube(fishBoxPos, fishBoxDim);//*/
     }
 
 

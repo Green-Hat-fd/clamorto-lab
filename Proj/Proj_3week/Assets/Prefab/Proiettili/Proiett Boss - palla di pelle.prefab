@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6244939306157870107}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6244939307192460751}
   m_RootOrder: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e59109c04afd5b748bcb54b10f196074, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6244939307192460751}
   - component: {fileID: 1141956319845167582}
-  - component: {fileID: 6244939307192460736}
+  - component: {fileID: 5451195318119665155}
   m_Layer: 2
   m_Name: Proiett Boss - palla di pelle
   m_TagString: Untagged
@@ -125,13 +125,13 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.4
---- !u!114 &6244939307192460736
+--- !u!114 &5451195318119665155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,11 +140,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6244939307192460750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac0922d41974074daf76395a237b4aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 9829c4fba97934b4a8d8eda28a22d681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 2.5
   bulletLife: 10
-  canRotate: 1
+  bulletType: 0
   rotatingSpr: {fileID: 6244939306157870108}
-  rotatVel: 2.5
+  rotatVel: 26.98
+  fishSpr: {fileID: 0}
+  rb2D: {fileID: 0}

@@ -10,6 +10,10 @@ public class BossAreaTrigger : MonoBehaviour
     [Header("—— Zona Boss ——")]
     [SerializeField] Vector2 newBossZone_camPos;
 
+    [Header("—— Feedback ——")]
+    [SerializeField] AudioSource levelMusic;
+    [SerializeField] AudioSource bossMusic;
+
 
 
     void Awake()
@@ -28,6 +32,14 @@ public class BossAreaTrigger : MonoBehaviour
             //del movimento della camera
             confinedCamScr.SetIsPlayerInBossZone(true);
             confinedCamScr.SetBossZone_CamPos(newBossZone_camPos);
+
+            //Attiva la musica del boss
+            //se non è ancora attiva
+            if (!bossMusic.isPlaying)
+            {
+                bossMusic.Play();
+                levelMusic.Stop();
+            }
         }
     }
 
@@ -44,6 +56,15 @@ public class BossAreaTrigger : MonoBehaviour
         Gizmos.DrawSphere(newBossZone_camPos, dim);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(newBossZone_camPos, dim);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        //Disegna una linea che collega
+        //la posizione di arrivo della telecamera
+        //alla posiz. di questo script
+        Gizmos.color = Color.gray;
+        Gizmos.DrawLine(transform.position, newBossZone_camPos);
     }
 
     #endregion

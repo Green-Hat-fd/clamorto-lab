@@ -105,8 +105,7 @@ public class PlayerMovRB : MonoBehaviour
         if (hasJumped && isOnGround)
         {
             //Resetta la velocita' Y e applica la forza d'impulso verso l'alto
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
-            rb.AddForce(transform.up * jumpPower, ForceMode2D.Impulse);
+            Jump(jumpPower);
         }
 
 
@@ -138,6 +137,12 @@ public class PlayerMovRB : MonoBehaviour
         }
 
         #endregion
+    }
+
+    public void Jump(float jumpForce)
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
     }
 
 

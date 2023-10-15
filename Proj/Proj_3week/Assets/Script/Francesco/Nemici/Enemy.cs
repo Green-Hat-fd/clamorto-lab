@@ -47,6 +47,9 @@ public class Enemy : MonoBehaviour, IEnemy
         {
             //Danneggia il nemico
             En_TakeDamage(int.MaxValue);
+
+            //Fa saltare leggermente il giocatore
+            collision.GetComponent<PlayerMovRB>().Jump(7.5f);
         }
     }
 
@@ -66,13 +69,18 @@ public class Enemy : MonoBehaviour, IEnemy
     {
         bool idDead = health <= 0;
 
-        if (idDead)   //Se viene ucciso
+        if (idDead)   //Se viene ucciso...
         {
             //TODO
 
+
+            //Aggiunge il punteggio al giocatore
             stats_SO.AddScore(scoreAtDeath);
 
-            gameObject.SetActive(false);
+
+            //Se non è il boss, nasconde il nemico
+            if(!GetComponent<BossScript>())
+                gameObject.SetActive(false);
         }
     }
 }

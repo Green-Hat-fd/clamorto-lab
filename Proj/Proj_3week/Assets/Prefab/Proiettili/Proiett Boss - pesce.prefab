@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6244939306157870107}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6244939307192460751}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &6244939306157870108
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6c9cd0f6835f4f4d8d78927276330f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 6244939307192460751}
   - component: {fileID: 2998631354773967154}
   - component: {fileID: 719193978143847245}
-  - component: {fileID: 6244939307192460736}
+  - component: {fileID: 1204094037881996910}
   m_Layer: 2
   m_Name: Proiett Boss - pesce
   m_TagString: Untagged
@@ -126,7 +126,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -140,7 +140,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4, y: 0.45}
+  m_Size: {x: 0.4, y: 1.15}
   m_EdgeRadius: 0
 --- !u!50 &719193978143847245
 Rigidbody2D:
@@ -163,7 +163,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6244939307192460736
+--- !u!114 &1204094037881996910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,11 +172,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6244939307192460750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac0922d41974074daf76395a237b4aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 9829c4fba97934b4a8d8eda28a22d681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 0
   bulletLife: 10
-  canRotate: 0
+  bulletType: 1
   rotatingSpr: {fileID: 0}
   rotatVel: 0
+  fishSpr: {fileID: 6244939306157870108}
+  rb2D: {fileID: 719193978143847245}

@@ -6,12 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerStatsManager : MonoBehaviour, IPlayer
 {
-    #region Classi
-
-
-
-    #endregion
-
     DeathManager deathMng;
     PlayerMovRB playerMovScr;
 
@@ -26,6 +20,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     int health,
         lives;
     bool canBeDamaged,
+         hasBonusHealth,
          isDead;
 
     [Space(10)]
@@ -36,11 +31,13 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] AudioSource deathSfx;
     [SerializeField] Canvas fakeDeathCanvas,
                             deathCanvas;
+    [SerializeField] Color invColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] SpriteRenderer normalSpr;
     [SerializeField] SpriteRenderer deathSpr;
 
     [Space(10)]
     [SerializeField] AudioSource jumpSfx;
+    [SerializeField] AudioSource damageSfx;
     [SerializeField] AudioSource powUpPickUpSfx;
     [Space(5)]
     [SerializeField] AudioSource collectablePickUpSfx;
@@ -49,8 +46,8 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] Text scoreTxt;
 
     [Space(10)]
-    [SerializeField] Text ammoTxt,
-                          maxAmmoTxt;
+    [SerializeField] Text ammoTxt;
+    [SerializeField] Text maxAmmoTxt;
 
     [Header("—— DEBUG ——")]
     [SerializeField] float deathZoneSize = 15;
@@ -72,9 +69,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         deathMng = FindObjectOfType<DeathManager>();
         playerMovScr = FindObjectOfType<PlayerMovRB>();
 
-        health = maxHealth;
-        canBeDamaged = true;
-        isDead = false;
+        ResetAllHealthVariables();
         deathCanvas.gameObject.SetActive(false);
         stats_SO.SetCheckpointPos(transform.position);
 
@@ -98,6 +93,8 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
         #region Cambiare l'HUD
 
+        //TODO: tutto questa parte
+
         //Cambio del testo (punteggio)
         scoreTxt.text = "Score: " + stats_SO.GetScore();
 
@@ -120,6 +117,16 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             //maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
         }
 
+        #endregion
+
+
+        #region Feedback
+
+        //Cambia lo sprite quando
+        //può essere danneggiato
+        normalSpr.color = canBeDamaged
+                           ? Color.white
+                           : invColor;
 
         #endregion
     }
@@ -136,14 +143,28 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void Pl_TakeDamage()
     {
-        //Se ha ancora punti vita
-        //e può essere danneggiato...
-        if (canBeDamaged && health - 1 >= 0)
+        //Se può essere danneggiato...
+        if (canBeDamaged)
         {
-            health--;
+            if (hasBonusHealth)     //Prende come priorità il punto vita bonus
+            {
+                hasBonusHealth = false;
+            }
+            else if (health - 1 >= 0)     //Se ha ancora punti vita
+            {
+                health--;
 
-            canBeDamaged = false;
-            Invoke("EnableCanBeDamaged", invSec);
+
+                #region Feedback
+
+                damageSfx.Play();
+
+                #endregion
+
+
+                canBeDamaged = false;
+                Invoke(nameof(EnableCanBeDamaged), invSec);
+            }
         }
 
         Pl_CheckDeath();
@@ -168,16 +189,32 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             if (lives <= 0)    //Se NON hai più vite
             {
                 Die_RespawnFromCheckpoint();
+
+                #region Feedback
+
+                //TODO
+
+                #endregion
             }
             else    //Se hai ancora altre vite
             {
                 Pl_Die();
+
+                #region Feedback
+
+                //TODO
+
+                #endregion
             }
         }
     }
 
     public void Die_RespawnFromCheckpoint()
     {
+        //TODO-----
+        transform.position = stats_SO.GetCheckpointPos();
+
+
         SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
                                     //e mostra quello di morte
 
@@ -297,6 +334,21 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     #endregion
 
 
+
+    public void SetHasBonusHealth(bool value)
+    {
+        hasBonusHealth = value;
+    }
+
+
+    public bool GetIsDead() => isDead;
+
+    public bool GetHasBonusHealth() => hasBonusHealth;
+
+
+
+    #region Funzioni Reset
+
     void ResetAllPowerUps()
     {
         StopAllCoroutines();
@@ -306,23 +358,30 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     }
 
 
-    public void SetMaxHealth(int value)
+    void ResetAllHealthVariables()
     {
-        maxHealth = value;
+        health = maxHealth;
+        lives = 5;
+
+        canBeDamaged = true;
+        isDead = false;
+
+        hasBonusHealth = false;
     }
+
+
     public void ResetMaxHealth()
     {
         maxHealth = 3;
     }
 
-    public void RestoreOneHealth()
+    public void AddOneHealthPoint()
     {
-        if(health+1 <= maxHealth)
+        if (health + 1 <= maxHealth)
             health++;
     }
 
-
-    public bool GetIsDead() => isDead;
+    #endregion
 
 
 
