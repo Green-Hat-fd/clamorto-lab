@@ -14,6 +14,10 @@ public class Enemy : MonoBehaviour, IEnemy
     [Min(0)]
     [SerializeField] int scoreAtDeath;
 
+    [Space(10)]
+    [SerializeField] AudioSource damageSfx;
+    [SerializeField] AudioSource deathSfx;
+
 
 
     void Start()
@@ -50,6 +54,10 @@ public class Enemy : MonoBehaviour, IEnemy
 
             //Fa saltare leggermente il giocatore
             collision.GetComponent<PlayerMovRB>().Jump(7.5f);
+
+
+            //Feedback
+            damageSfx.PlayOneShot(damageSfx.clip);
         }
     }
 
@@ -78,9 +86,16 @@ public class Enemy : MonoBehaviour, IEnemy
             stats_SO.AddScore(scoreAtDeath);
 
 
-            //Se non è il boss, nasconde il nemico
-            if(!GetComponent<BossScript>())
+            //Se non è il boss...
+            if (!GetComponent<BossScript>())
+            {
+                //Nasconde il nemico
                 gameObject.SetActive(false);
+
+
+                //Feedback
+                deathSfx.PlayOneShot(deathSfx.clip);
+            }
         }
     }
 }

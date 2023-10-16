@@ -40,7 +40,12 @@ public class BossScript : Enemy
 
     [Header("—— Feedback ——")]
     [SerializeField] ConfinedCameraScript confinedCamScr;
+
     [Space(10)]
+    [SerializeField] AudioSource createBallSfx;
+    [SerializeField] AudioSource createFishSfx;
+
+    [Header("—— UI ——")]
     [SerializeField] Canvas bossCanvas;
     [SerializeField] Slider bossHealthSl;
     
@@ -114,6 +119,10 @@ public class BossScript : Enemy
                     bossBull.SetBulletLife_RemoveIt(ballLife);
 
 
+                    //Feedback
+                    createBallSfx.PlayOneShot(createBallSfx.clip);
+
+
 
                     doOnce_ball = false;
 
@@ -153,6 +162,10 @@ public class BossScript : Enemy
                     //Fa saltare il pesce verso l'alto
                     fish.GetComponent<Rigidbody2D>().AddForce(Vector3.up * upForce_fish,
                                                               ForceMode2D.Impulse);
+
+
+                    //Feedback
+                    createFishSfx.PlayOneShot(createFishSfx.clip);
 
 
 
@@ -233,6 +246,9 @@ public class BossScript : Enemy
     IEnumerator WaitAndFinishBoss()
     {
         //Feedback - //TODO
+
+
+
 
         yield return new WaitForSeconds(10);
     }

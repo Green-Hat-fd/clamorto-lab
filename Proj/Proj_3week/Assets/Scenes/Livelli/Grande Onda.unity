@@ -15666,6 +15666,14 @@ PrefabInstance:
       propertyPath: boxcastDim.x
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 1915453208397713622, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915453208397713622, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6313940707530754014, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: yMinDeath
       value: -5
