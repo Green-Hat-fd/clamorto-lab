@@ -29,8 +29,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     [Header("—— Feedback ——")]
     [SerializeField] AudioSource deathSfx;
-    [SerializeField] Canvas fakeDeathCanvas,
-                            deathCanvas;
     [SerializeField] Color invColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] SpriteRenderer normalSpr;
     [SerializeField] SpriteRenderer deathSpr;
@@ -46,20 +44,15 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] Text scoreTxt;
 
     [Space(10)]
+    [SerializeField] List<Image> healthImages;
+    [SerializeField] Image bonusHealthImg;
+
+    [Space(10)]
     [SerializeField] Text ammoTxt;
     [SerializeField] Text maxAmmoTxt;
 
     [Header("—— DEBUG ——")]
     [SerializeField] float deathZoneSize = 15;
-
-
-    #region Costanti
-
-    //const PowerUp.PowerUpType_Enum POW_EMPTY = PowerUp.PowerUpType_Enum._empty;
-    //const PowerUp.PowerUpType_Enum POW_TIMER = PowerUp.PowerUpType_Enum.Timer;
-    //const PowerUp.PowerUpType_Enum POW_INVINCIBLE = PowerUp.PowerUpType_Enum.Invincible;
-
-    #endregion
 
 
 
@@ -70,11 +63,10 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         playerMovScr = FindObjectOfType<PlayerMovRB>();
 
         ResetAllHealthVariables();
-        deathCanvas.gameObject.SetActive(false);
         stats_SO.SetCheckpointPos(transform.position);
 
         //Reset degli sprite
-        SwapToDeathSprite(false);
+        //SwapToDeathSprite(false);
 
 
         //Fissa il frame-rate da raggiungere dal gioco a 60 fps
@@ -93,20 +85,28 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
         #region Cambiare l'HUD
 
-        //TODO: tutto questa parte
-
         //Cambio del testo (punteggio)
         scoreTxt.text = "Score: " + stats_SO.GetScore();
 
-        //Cambia la vita e la vita bonus
-        //quello in uso in base a quale sia
-        /*
-        ChangePowerUpImage(stats_SO.GetPowerToUse(), powUpToUseImg);
-        ChangePowerUpImage(stats_SO.GetActivePowerUp(), activePowUpImg);//*/
 
-        //Cambia le munizioni e il limite massimo
-        if (shootScr.GetHasInfiniteAmmo())
+        for (int i = 0; i < healthImages.Count; i++)
         {
+            bool isHeartLost = health - 1 < i;
+
+            //Rende semi-trasparente ogni cuore perso
+            healthImages[i].color = isHeartLost
+                                     ? invColor
+                                     : Color.white;
+        }
+
+        //Rende visibile il cuore bonus
+        //se ha preso il potenziamento
+        bonusHealthImg.enabled = hasBonusHealth;
+
+
+        if (!shootScr.GetHasInfiniteAmmo())    //Se NON ha munizioni infinite...
+        {
+            //Cambia le munizioni e il limite massimo
             ammoTxt.text = shootScr.GetAmmo().ToString();
             maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
         }
@@ -118,6 +118,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         }
 
         #endregion
+
 
 
         #region Feedback
@@ -157,6 +158,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
                 #region Feedback
 
+                damageSfx.pitch = Random.Range(0.8f, 1.75f);
                 damageSfx.Play();
 
                 #endregion
@@ -184,6 +186,11 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             lives--;    //Toglie una vita
 
             isDead = true;
+
+
+            ResetAllPowerUps();
+
+            deathMng.ActivateScripts(false);    //Disattiva tutti gli script nella lista
 
 
             if (lives <= 0)    //Se NON hai più vite
@@ -218,14 +225,8 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
                                     //e mostra quello di morte
 
-        ResetAllPowerUps();
-
-        deathMng.ActivateScripts(false);    //Disattiva tutti gli script nella lista
 
         #region Feedback
-
-        //Mostra la canvas di Game Over (per il checkpoint)
-        fakeDeathCanvas.gameObject.SetActive(true);
 
         //Audio
         //deathMng.ActivateLevelMusic(false);    //Disattiva la musica
@@ -239,17 +240,9 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         //TODO-----
 
 
-        SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
-                                    //e mostra quello di morte
 
-        ResetAllPowerUps();
-
-        deathMng.ActivateScripts(false);    //Disattiva tutti gli script nella lista
 
         #region Feedback
-
-        //Mostra la canvas di Game Over
-        deathCanvas.gameObject.SetActive(true);
 
         //Audio
         //deathMng.ActivateLevelMusic(false);    //Disattiva la musica
@@ -271,7 +264,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void RespawnFromCheckpoint()
     {
-        deathCanvas.gameObject.SetActive(false);
         deathMng.ActivateScripts(true);
 
         //Rimette il giocatore nella posizione dell'ultimo checkpoint
@@ -282,53 +274,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     {
         //Ricarica il livello in sè
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    #endregion
-
-
-    #region Power-Up - 1
-
-    //TODO
-    IEnumerator ActivateSlowTimerPowUp(float powUpTime, float timeSpeed)
-    {
-        print("inizio SlowTime");
-
-
-        //Inizio effetti
-        Time.timeScale = timeSpeed;
-        playerMovScr.SetPlayerSpeedMultip(2);    // funzione per raddoppiare velocita
-
-        #region Feedback - inizio effetti
-
-        //DeSaturateAllSprites();
-
-        #endregion
-
-
-        yield return new WaitForSeconds(powUpTime);
-
-
-        //Fine effetti
-        EndSlowTimerPowUp();
-
-        #region Feedback - fine effetti
-
-        //SaturateAllSprites();
-
-        #endregion
-
-
-        //stats_SO.ResetActivePowerUp();    //Toglie il ppower-up da quello attivo
-
-        print("fine SlowTime");
-    }
-
-
-    void EndSlowTimerPowUp()
-    {
-        Time.timeScale = 1;
-        playerMovScr.ResetPlayerSpeedMultip();    // funzione per ripristinare la velocita
     }
 
     #endregion
@@ -353,8 +298,9 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     {
         StopAllCoroutines();
 
-        //Disattiva tutti i power-up
-        EndSlowTimerPowUp();
+        SetHasBonusHealth(false);
+
+        shootScr.SetIsShootBoostActive(false);
     }
 
 

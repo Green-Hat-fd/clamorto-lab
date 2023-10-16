@@ -23,6 +23,9 @@ public class ShootScript : MonoBehaviour
 
     bool canShoot = true; // Aggiungiamo una variabile per controllare se è possibile sparare
 
+    [Header("—— Feedback ——")]
+    [SerializeField] AudioSource shootSfx;
+
 
 
     private void Awake()
@@ -96,6 +99,10 @@ public class ShootScript : MonoBehaviour
         Instantiate(bullet,
                     whereToShoot.position,
                     whereToShoot.localRotation);
+
+
+        //Feedback
+        shootSfx.Play();
     }
 
     void EnableShooting()
