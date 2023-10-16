@@ -39,7 +39,8 @@ public class CollectableScript : MonoBehaviour
     Vector3 startPos;
     
     [Space(10)]
-    [SerializeField] AudioSource collectedSfx;
+    [SerializeField] AudioSource smallCollectedSfx;
+    [SerializeField] AudioSource bigCollectedSfx;
 
 
     #region Costanti
@@ -73,6 +74,7 @@ public class CollectableScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IPlayer playerCheck = collision.GetComponent<IPlayer>();
+        AudioSource sfxToPlay;
 
         if (playerCheck != null)
         {
@@ -81,23 +83,33 @@ public class CollectableScript : MonoBehaviour
                 //---Notte Stellata---//
                 case COLL_NS:
                     stats_SO.SetLevelOneCompleted(true);
+
+                    sfxToPlay = bigCollectedSfx;
                     break;
                 
                 //---Grande Onda---//
                 case COLL_GO:
                     stats_SO.SetLevelTwoCompleted(true);
+
+                    sfxToPlay = bigCollectedSfx;
                     break;
-
+                
+                //---Solo il Punteggio---//
+                default:
+                case COLL_PUNTI:
+                    sfxToPlay = smallCollectedSfx;
+                    break;
             }
+
+            //Aggiunge il punteggio
+            stats_SO.AddScore(scoreWhenCollected);
+
+            //Feedback
+            sfxToPlay.PlayOneShot(sfxToPlay.clip);
+
+            //Nasconde il collezionabile
+            spriteTransf.gameObject.SetActive(false);
+            GetComponent<Collider2D>().enabled = false;
         }
-
-        //Aggiunge il punteggio
-        stats_SO.AddScore(scoreWhenCollected);
-
-        //Feedback
-        collectedSfx.Play();
-
-        //Nasconde il collezionabile
-        gameObject.SetActive(false);
     }
 }

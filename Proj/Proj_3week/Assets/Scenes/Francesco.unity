@@ -5376,6 +5376,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f92615cae9c1c94e9cf353e31caec73, type: 3}
+--- !u!1001 &651965273
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6325739548865039334, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_Name
+      value: Collezionabile
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 30.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325739548865039354, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23bb6babd4479224e9c76ab04f239871, type: 3}
 --- !u!1 &675919323
 GameObject:
   m_ObjectHideFlags: 0
@@ -5494,6 +5551,7 @@ MonoBehaviour:
   upShootingPoint: {fileID: 1884489198}
   maxAmmo: 20
   fireRate: 1
+  shootSfx: {fileID: 0}
 --- !u!4 &709365585
 Transform:
   m_ObjectHideFlags: 0
@@ -5573,6 +5631,8 @@ MonoBehaviour:
   maxHealth: 300
   stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
   scoreAtDeath: 0
+  damageSfx: {fileID: 0}
+  deathSfx: {fileID: 0}
   ballToSpawn: {fileID: 1678754950}
   ballLife: 10
   offset_ball: {x: 0, y: 0}
@@ -5590,6 +5650,8 @@ MonoBehaviour:
   leftPos: {fileID: 0}
   rightPos: {fileID: 0}
   confinedCamScr: {fileID: 0}
+  createBallSfx: {fileID: 0}
+  createFishSfx: {fileID: 0}
   bossCanvas: {fileID: 0}
   bossHealthSl: {fileID: 0}
 --- !u!4 &902739616
@@ -16423,11 +16485,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 27.4
+      value: 79.67
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.5
+      value: 1.35
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.z

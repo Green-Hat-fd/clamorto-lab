@@ -39,8 +39,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] AudioSource powUpPickUpSfx;
     [Space(5)]
     [SerializeField] AudioSource collectablePickUpSfx;
-    [SerializeField] List<AudioSource> footstepsSfx;
-    bool isStepTake;
 
     [Header("—— UI ——")]
     [SerializeField] Text scoreTxt;
@@ -131,18 +129,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
                            ? Color.white
                            : invColor;
 
-        //Appena calpesta il terreno col piede,
-        //riproduce un suono casuale
-        if (isStepTake)
-        {
-            int rand_i = Random.Range(0, footstepsSfx.Count);
-            AudioSource toPlay = footstepsSfx[rand_i];
-
-            toPlay.PlayOneShot(toPlay.clip);
-
-            isStepTake = false;
-        }
-
         #endregion
     }
 
@@ -172,6 +158,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
                 #region Feedback
 
+                damageSfx.pitch = Random.Range(0.8f, 1.75f);
                 damageSfx.Play();
 
                 #endregion
@@ -296,11 +283,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     public void SetHasBonusHealth(bool value)
     {
         hasBonusHealth = value;
-    }
-
-    public void SetIsStepTake(bool value)
-    {
-        isStepTake = value;
     }
 
 
