@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerVel: 7.5
-  jumpPower: 9.5
+  jumpPower: 10.25
   limitGroundCheck: 0.05
   boxcastDim: {x: 0.9, y: 0.1}
   playerSpr: {fileID: 3608740048299418003}
@@ -489,7 +489,6 @@ MonoBehaviour:
   - {fileID: 8601868722264843761}
   - {fileID: 1120411379252821080}
   - {fileID: 2846078535543114522}
-  isFootStep: 0
   scoreTxt: {fileID: 0}
   healthImages:
   - {fileID: 0}
