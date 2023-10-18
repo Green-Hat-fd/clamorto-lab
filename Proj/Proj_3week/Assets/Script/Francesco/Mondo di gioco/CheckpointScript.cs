@@ -10,6 +10,22 @@ public class CheckpointScript : MonoBehaviour
     [Space(10)]
     [SerializeField] Vector2 checkpointOffset = Vector2.zero;
 
+    List<CheckpointScript> allCheckPoints = default;
+
+    [Header("—— Feedback ——")]
+    [SerializeField] SpriteRenderer checkpSpr;
+    [SerializeField] Sprite normalSprite,
+                            activeSprite;
+
+
+
+    private void Awake()
+    {
+        CheckpointScript[] allChecks = FindObjectsOfType<CheckpointScript>();
+        allCheckPoints = new List<CheckpointScript>(allChecks);
+
+        allCheckPoints.Remove(this);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,9 +35,44 @@ public class CheckpointScript : MonoBehaviour
         {
             //Imposta il nuovo checkpoint
             stats_SO.SetCheckpointPos(transform.position + (Vector3)checkpointOffset);
+
+
+            #region Feedback
+
+            //Cambia lo sprite con quello
+            //attivo in questo checkpoint
+            SetSprite(activeSprite);
+
+            //Cambia lo sprite con quello
+            //normale negli altri checkpoint
+            foreach (var scr in allCheckPoints)
+            {
+                scr.SetSprite(normalSprite);
+            }
+
+            #endregion
         }
     }
 
+
+    public void SetSprite(Sprite newSpr)
+    {
+        checkpSpr.sprite = newSpr;
+    }
+
+
+
+    #region EXTRA - Cambiare l'inspector
+
+    private void OnValidate()
+    {
+        //
+        checkpSpr.transform.position = transform.position
+                                        + (Vector3)checkpointOffset
+                                        + Vector3.up * 0.2f;
+    }
+
+    #endregion
 
 
     #region EXTRA - Gizmos
