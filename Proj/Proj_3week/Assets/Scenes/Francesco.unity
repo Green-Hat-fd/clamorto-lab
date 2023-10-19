@@ -5550,6 +5550,8 @@ MonoBehaviour:
   rightShootingPoint: {fileID: 819973762}
   upShootingPoint: {fileID: 1884489198}
   maxAmmo: 20
+  isShootBoostActive: 0
+  infiniteAmmo: 0
   fireRate: 1
   shootSfx: {fileID: 0}
 --- !u!4 &709365585
