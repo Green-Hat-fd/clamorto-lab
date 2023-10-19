@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HPregen : MonoBehaviour
+public class HPRegen : MonoBehaviour
 {
     public AudioSource suonoAria;
     [SerializeField] private int hpRegen =+ 1 ;
