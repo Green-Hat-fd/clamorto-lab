@@ -11,9 +11,9 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField] PlayerStatsManager statsMng;
     [SerializeField] ShootScript shootScr;
 
-    UnityEvent evAtPowerUpEnd;
+    UnityEvent evAtPowerUpEnd = new UnityEvent();
 
-    bool hasPowerUpActive;
+    bool hasPowerUpActive = false;
 
 
 
@@ -37,7 +37,7 @@ public class PowerUpManager : MonoBehaviour
 
     #region Attivazione dei Power-Up
 
-    public void ActivateShootBoost_PowerUp()
+    public bool ActivateShootBoost_PowerUp()
     {
         if (!hasPowerUpActive)
         {
@@ -51,22 +51,39 @@ public class PowerUpManager : MonoBehaviour
             //Attiva la Coroutine
             float sec = stats_SO.GetBigShoot_PowerUpDuration();
             StartCoroutine(StartPowerUp(sec));
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-    public void ActivateBonusHealth_PowerUp()
+    public bool ActivateBonusHealth_PowerUp()
     {
         //Attiva il power-up solo se
         //NON ha il punto vita bonus attivo
         if (!statsMng.GetHasBonusHealth())
         {
             statsMng.SetHasBonusHealth(true);
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-    public void AddHealth_PowerUp()
+    public bool AddHealth_PowerUp()
     {
-        statsMng.AddOneHealthPoint();
+        return statsMng.AddOneHealthPoint();
+    }
+
+    public bool RechargeAmmo_PowerUp()
+    {
+        return shootScr.RechargeHalfAmmo();
     }
 
     #endregion
