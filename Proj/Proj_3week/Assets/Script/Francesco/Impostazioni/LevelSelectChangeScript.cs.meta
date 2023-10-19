@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 56e42070b26be654c9d76818d4709288
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
+  - vuoto_notteStellataButton: {instanceID: 0}
+  - vuoto_grandeOndaButton: {instanceID: 0}
+  - vuoto_cittaCheSaleButton: {instanceID: 0}
+  - pieno_notteStellataButton: {instanceID: 0}
+  - pieno_grandeOndaButton: {instanceID: 0}
+  - pieno_cittaCheSaleButton: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
