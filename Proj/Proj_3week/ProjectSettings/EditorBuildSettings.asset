@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Livelli/MainMenu.unity
     guid: 7c6917b5201da8145b9ca3ceba9c7acd
   - enabled: 1
-    path: Assets/Scenes/Livelli/Grande Onda.unity
-    guid: 3d867d952d6b6164ea00f35f43049292
-  - enabled: 1
     path: Assets/Scenes/Livelli/Notte Stellata.unity
     guid: c1a8f5ce85bea5343887f0c15f843b11
+  - enabled: 1
+    path: Assets/Scenes/Livelli/Grande Onda.unity
+    guid: 3d867d952d6b6164ea00f35f43049292
   - enabled: 1
     path: Assets/Scenes/Livelli/Citta' che sale.unity
     guid: 38b13db09f0b91748affb69be5ec13de

@@ -95,14 +95,6 @@ public class PlayerMovRB : MonoBehaviour
         }
 
 
-        //Quando salta riproduce il suono di salto
-        if (hasJumped && isOnGround)
-        {
-            //jumpSfx.pitch = Random.Range(0.8f, 1.1f);
-
-            //jumpSfx.Play();
-        }
-
         //Appena calpesta il terreno col piede,
         //riproduce un suono casuale
         if (isStepTaken)
@@ -159,7 +151,7 @@ public class PlayerMovRB : MonoBehaviour
             {
                 //Cambia l'animazione a quella di salto
                 AllAnimatorsSetTrigger("Jump");
-                Invoke(nameof(SetTrueIsInAirAfterJump), boxcastDim.y * 2 + 0.05f);
+                Invoke(nameof(SetTrueIsInAirAfterJump), boxcastDim.y * 3);
 
                 doOnce_jump = false;
             }

@@ -31,7 +31,6 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] AudioSource deathSfx;
     [SerializeField] Color invColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] SpriteRenderer normalSpr;
-    [SerializeField] SpriteRenderer deathSpr;
 
     [Space(10)]
     [SerializeField] AudioSource jumpSfx;
@@ -44,12 +43,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] Text scoreTxt;
 
     [Space(10)]
-    [SerializeField] List<Image> healthImages;
+    [SerializeField] Slider healthBar;
     [SerializeField] Image bonusHealthImg;
+    [SerializeField] Text livesTxt;
 
     [Space(10)]
-    [SerializeField] Text ammoTxt;
-    [SerializeField] Text maxAmmoTxt;
+    [SerializeField] Slider ammoSlider;
 
     [Header("—— DEBUG ——")]
     [SerializeField] float deathZoneSize = 15;
@@ -67,6 +66,9 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
         //Reset degli sprite
         //SwapToDeathSprite(false);
+
+        //Reset del punteggio
+        stats_SO.ResetScore();
 
 
         //Fissa il frame-rate da raggiungere dal gioco a 60 fps
@@ -86,36 +88,25 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         #region Cambiare l'HUD
 
         //Cambio del testo (punteggio)
-        scoreTxt.text = "Score: " + stats_SO.GetScore();
+        scoreTxt.text = stats_SO.GetScore() + "";
 
+        //Cambia la barra della vita (health)
+        healthBar.value = health / maxHealth;
 
-        for (int i = 0; i < healthImages.Count; i++)
-        {
-            bool isHeartLost = health - 1 < i;
-
-            //Rende semi-trasparente ogni cuore perso
-            healthImages[i].color = isHeartLost
-                                     ? invColor
-                                     : Color.white;
-        }
-
-        //Rende visibile il cuore bonus
+        //Rende visibile la vita bonus
         //se ha preso il potenziamento
         bonusHealthImg.enabled = hasBonusHealth;
 
 
-        if (!shootScr.GetHasInfiniteAmmo())    //Se NON ha munizioni infinite...
-        {
-            //Cambia le munizioni e il limite massimo
-            ammoTxt.text = shootScr.GetAmmo().ToString();
-            maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
-        }
-        else
-        {
-            //TODO: sistema le munizioni infinite
-            //ammoTxt.text = shootScr.GetAmmo().ToString();
-            //maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
-        }
+        //Cambia il testo delle vite (lives)
+        livesTxt.text = "x" + lives;
+
+
+        //Cambia le munizioni e il limite massimo
+        //(se ha munizioni infinite, è sempre max)
+        ammoSlider.value = !shootScr.GetHasInfiniteAmmo()
+                             ? shootScr.GetAmmo() / shootScr.GetMaxAmmo()
+                             : 1;
 
         #endregion
 
@@ -218,12 +209,11 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void Die_RespawnFromCheckpoint()
     {
-        //TODO-----
+        //Ricarica l'ultimo checkpoint
         transform.position = stats_SO.GetCheckpointPos();
 
-
-        SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
-                                    //e mostra quello di morte
+        //Nasconde lo sprite del giocatore
+        normalSpr.gameObject.SetActive(false);
 
 
         #region Feedback
@@ -237,9 +227,11 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void Pl_Die()
     {
-        //TODO-----
+        //Ricarica l'intero livello
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-
+        //Nasconde lo sprite del giocatore
+        normalSpr.gameObject.SetActive(false);
 
 
         #region Feedback
@@ -251,10 +243,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         #endregion
     }
 
-    public void SwapToDeathSprite(bool isDead)
+
+    void Respawn()
     {
-        normalSpr.gameObject.SetActive(!isDead);
-        deathSpr.gameObject.SetActive(isDead);
+        transform.position = stats_SO.GetCheckpointPos();
+
+        normalSpr.gameObject.SetActive(true);
     }
 
     #endregion

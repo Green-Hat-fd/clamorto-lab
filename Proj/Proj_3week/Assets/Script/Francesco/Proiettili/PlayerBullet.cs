@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerBullet : Bullet
 {
@@ -19,12 +20,25 @@ public class PlayerBullet : Bullet
             enemyCheck.En_TakeDamage(bulletDamage);
         }
 
-        if (collision.GetComponent<IPlayer>() == null
-            &&
-            collision.GetComponent<BossBullet>() == null)
+        //print(collision.name);
+
+        //if (collision.GetComponent<IPlayer>() == null
+        //    &&
+        //    collision.GetComponent<BossBullet>() == null)
+        //{
+        //    print("TOLTO");
+        //    //Toglie il proiettile
+        //    //(se non ha colpito il giocatore)
+        //    RemoveBullet();
+        //}
+
+        if (collision.GetComponent<TilemapCollider2D>()
+            ||
+            collision.name == "Tilemap")
         {
+            print(collision.name);
             //Toglie il proiettile
-            //(se non ha colpito il giocatore)
+            //(se ha colpito la tilemap)
             RemoveBullet();
         }
     }
