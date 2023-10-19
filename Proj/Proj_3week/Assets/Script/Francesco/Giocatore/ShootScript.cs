@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShootScript : MonoBehaviour
 {
+    PlayerMovRB movScr;
+
     [SerializeField] GameObject bulletPrefab,
                                 boostedBulletPrefab;
     [SerializeField] Transform leftShootingPoint,
@@ -30,6 +32,8 @@ public class ShootScript : MonoBehaviour
 
     private void Awake()
     {
+        movScr = GetComponent<PlayerMovRB>();
+
         FullyRechargeAmmo();
     }
 
@@ -103,6 +107,8 @@ public class ShootScript : MonoBehaviour
 
         //Feedback
         shootSfx.Play();
+
+        movScr.AllAnimatorsSetTrigger("Attack");
     }
 
     void EnableShooting()
