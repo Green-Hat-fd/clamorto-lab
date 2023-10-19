@@ -688,6 +688,9 @@ MonoBehaviour:
   maxHealth: 2
   stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
   scoreAtDeath: 0
+  enemySprites:
+  - {fileID: 6969847918998166794}
+  - {fileID: 6778636154151212523}
   damageSfx: {fileID: 7223306012373735295}
   deathSfx: {fileID: 7223306012373735295}
   bulletPrefab: {fileID: 6244939307192460750, guid: 4601f7d8799c1734195908ca127ee8e9, type: 3}

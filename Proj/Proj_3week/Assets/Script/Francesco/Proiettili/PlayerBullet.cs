@@ -20,25 +20,13 @@ public class PlayerBullet : Bullet
             enemyCheck.En_TakeDamage(bulletDamage);
         }
 
-        //print(collision.name);
 
-        //if (collision.GetComponent<IPlayer>() == null
-        //    &&
-        //    collision.GetComponent<BossBullet>() == null)
-        //{
-        //    print("TOLTO");
-        //    //Toglie il proiettile
-        //    //(se non ha colpito il giocatore)
-        //    RemoveBullet();
-        //}
-
-        if (collision.GetComponent<TilemapCollider2D>()
-            ||
-            collision.name == "Tilemap")
+        if (collision.GetComponent<IPlayer>() == null
+            &&
+            collision.GetComponent<BossBullet>() == null)
         {
-            print(collision.name);
             //Toglie il proiettile
-            //(se ha colpito la tilemap)
+            //(se non ha colpito il giocatore)
             RemoveBullet();
         }
     }

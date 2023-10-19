@@ -29,7 +29,7 @@ public class PlayerMovRB : MonoBehaviour
                  hitStep;
 
     [Header("—— Feedback ——")]
-    [SerializeField] SpriteRenderer playerSpr;
+    [SerializeField] GameObject playerSprGroup;
 
     [Space(10)]
     [SerializeField] AudioSource jumpSfx;
@@ -91,7 +91,7 @@ public class PlayerMovRB : MonoBehaviour
         if (isMoving)    //Se sta continuando a muoversi...
         {
             // flippa lo sprite se si muove verso sinistra, e torna normale se ti muovi a destra
-            playerSpr.transform.rotation = xMov < 0 ? leftRot : rightRot;
+            playerSprGroup.transform.rotation = xMov < 0 ? leftRot : rightRot;
         }
 
 
@@ -256,6 +256,10 @@ public class PlayerMovRB : MonoBehaviour
     }
 
     #endregion
+
+
+
+    public Rigidbody2D GetRB() => rb;
 
 
 
