@@ -833,11 +833,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb7dbf1910ba24fa1aa90415b94061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 300
+  maxHealth: 100
   stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
   scoreAtDeath: 0
+  enemySprites: []
   damageSfx: {fileID: 7070848179773807406}
   deathSfx: {fileID: 3688679349024152830}
+  options_SO: {fileID: 11400000, guid: b1200245f9db1304dbfaeaf11462d3a3, type: 2}
   ballToSpawn: {fileID: 6244939307192460750, guid: a7e38a96a20f66b41ab95e5b92bb5a18, type: 3}
   ballLife: 10
   offset_ball: {x: 0, y: -0.75}
@@ -854,6 +856,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5006f4af672bbeb4d856980c8f2a6c2f, type: 3}
   - {fileID: 21300000, guid: 84d798e78090806478ef26e7da1ce071, type: 3}
   - {fileID: 21300000, guid: f6c9cd0f6835f4f4d8d78927276330f6, type: 3}
+  deathPart: {fileID: 0}
   bossVelocity: 3.5
   leftPos: {fileID: 7717171910995878020}
   rightPos: {fileID: 7717171910360416957}
@@ -998,7 +1001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1006,7 +1009,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1014,7 +1017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 250
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1050,7 +1053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 25
+      value: 1106
       objectReference: {fileID: 0}
     - target: {fileID: 7129856444211595897, guid: 7e47eaf6dce28f54681aa9ef2748c549, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -6,6 +6,7 @@ using UnityEngine;
 public class BossAreaTrigger : MonoBehaviour
 {
     [SerializeField] ConfinedCameraScript confinedCamScr;
+    [SerializeField] BossScript bossScr;
 
     [Header("—— Zona Boss ——")]
     [SerializeField] Vector2 newBossZone_camPos;
@@ -32,6 +33,11 @@ public class BossAreaTrigger : MonoBehaviour
             //del movimento della camera
             confinedCamScr.SetIsPlayerInBossZone(true);
             confinedCamScr.SetBossZone_CamPos(newBossZone_camPos);
+
+
+            //Attiva il boss
+            bossScr.SetIsStopped(false);
+
 
             //Attiva la musica del boss
             //se non è ancora attiva
