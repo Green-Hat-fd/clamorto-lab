@@ -13,6 +13,8 @@ public class EnemyShoot : Enemy
     [SerializeField] float maxShootDistance = 10f;
 
     bool canShoot = true;
+
+    [Header("—— Feedback ——")]
     [SerializeField] Animator enAnim;
 
 
@@ -60,7 +62,7 @@ public class EnemyShoot : Enemy
 
 
         //Feedback
-        //enAnim.SetTrigger("Shoot");
+        enAnim.SetTrigger("Attack");
     }
 
     void EnableCanShoot()

@@ -37,7 +37,11 @@ public class PlayerMovRB : MonoBehaviour
     bool isStepTaken;
 
     [Space(10)]
-    [SerializeField] Animator playerAnim;
+    [SerializeField] Animator playerBodyAnim;
+    [SerializeField] Animator playerLegsAnim;
+    [SerializeField] Animator playerArmAnim;
+    bool isInAirAfterJump,
+         doOnce_jump = true;
 
 
 
@@ -112,10 +116,12 @@ public class PlayerMovRB : MonoBehaviour
         }
 
 
-        //Cambia l'animazione tra
+        //Cambia l'animazione a
         //corsa (se vel > 0.1)
         //e idle (se vel simile a 0)
-        playerAnim.SetBool("isRunning", rb.velocity.magnitude > 0.15f);
+        bool isWalking = rb.velocity.magnitude > 0.15f;
+
+        AllAnimatorsSetBool("IsWalking", isWalking && !isInAirAfterJump);
 
         #endregion
     }
@@ -147,6 +153,16 @@ public class PlayerMovRB : MonoBehaviour
             //(con pitch casuale)
             jumpSfx.pitch = Random.Range(0.8f, 1.1f);
             jumpSfx.Play();
+
+
+            if (doOnce_jump)
+            {
+                //Cambia l'animazione a quella di salto
+                AllAnimatorsSetTrigger("Jump");
+                Invoke(nameof(SetTrueIsInAirAfterJump), boxcastDim.y * 2 + 0.05f);
+
+                doOnce_jump = false;
+            }
         }
 
 
@@ -196,6 +212,23 @@ public class PlayerMovRB : MonoBehaviour
         }
 
         #endregion
+
+
+        #region Feedback
+
+        //Se è atterrato
+        if (isInAirAfterJump && isOnGround)
+        {
+            //Cambia l'animazione a quella di atterraggio
+            AllAnimatorsSetTrigger("Landed");
+
+            //Reset della variabile
+            isInAirAfterJump = false;
+
+            doOnce_jump = true;
+        }
+
+        #endregion
     }
 
     public void Jump(float jumpForce)
@@ -205,10 +238,33 @@ public class PlayerMovRB : MonoBehaviour
     }
 
 
+
+    #region Funzioni Set Personalizzate
+
+    void SetTrueIsInAirAfterJump() { isInAirAfterJump = true; }
+
+
     public void SetIsStepTaken(bool value)
     {
         isStepTaken = value;
     }
+
+
+    public void AllAnimatorsSetBool(string boolName, bool value)
+    {
+        playerBodyAnim.SetBool(boolName, value);
+        playerLegsAnim.SetBool(boolName, value);
+        playerArmAnim.SetBool(boolName, value);
+    }
+    public void AllAnimatorsSetTrigger(string triggerName)
+    {
+        playerBodyAnim.SetTrigger(triggerName);
+        playerLegsAnim.SetTrigger(triggerName);
+        playerArmAnim.SetTrigger(triggerName);
+    }
+
+    #endregion
+
 
 
     #region EXTRA - Gizmos
