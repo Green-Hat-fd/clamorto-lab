@@ -21,6 +21,7 @@ public class CollectableScript : MonoBehaviour
 
 
     [SerializeField] PlayerStatsSO_Script stats_SO;
+    [SerializeField] OptionsSO_Script options_SO;
 
     [Space(20)]
     [SerializeField] CollectType_Enum collectableType;
@@ -85,6 +86,9 @@ public class CollectableScript : MonoBehaviour
                     stats_SO.SetLevelOneCompleted(true);
 
                     sfxToPlay = bigCollectedSfx;
+
+                    //Torna al menu principale
+                    options_SO.OpenChooseScene(0);
                     break;
                 
                 //---Grande Onda---//
@@ -92,6 +96,9 @@ public class CollectableScript : MonoBehaviour
                     stats_SO.SetLevelTwoCompleted(true);
 
                     sfxToPlay = bigCollectedSfx;
+
+                    //Torna al menu principale
+                    options_SO.OpenChooseScene(0);
                     break;
                 
                 //---Solo il Punteggio---//

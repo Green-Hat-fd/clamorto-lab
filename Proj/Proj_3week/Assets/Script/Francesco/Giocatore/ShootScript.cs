@@ -127,6 +127,19 @@ public class ShootScript : MonoBehaviour
     {
         ammo = maxAmmo;    //Mette le munizioni al massimo
     }
+    public bool RechargeHalfAmmo()
+    {
+        if(ammo < maxAmmo)
+        {
+            ammo += maxAmmo / 2;    //Mette le munizioni al massimo
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public void SetIsShootBoostActive(bool value)
     {

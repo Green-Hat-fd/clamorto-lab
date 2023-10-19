@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerBullet : Bullet
 {
@@ -18,6 +19,7 @@ public class PlayerBullet : Bullet
             //Lo danneggia
             enemyCheck.En_TakeDamage(bulletDamage);
         }
+
 
         if (collision.GetComponent<IPlayer>() == null
             &&

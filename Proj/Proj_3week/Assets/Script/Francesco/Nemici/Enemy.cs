@@ -15,6 +15,9 @@ public class Enemy : MonoBehaviour, IEnemy
     [SerializeField] int scoreAtDeath;
 
     [Space(10)]
+    [SerializeField] List<SpriteRenderer> enemySprites;
+
+    [Space(10)]
     [SerializeField] AudioSource damageSfx;
     [SerializeField] AudioSource deathSfx;
 
@@ -27,7 +30,16 @@ public class Enemy : MonoBehaviour, IEnemy
 
     void Update()
     {
-        
+        //Cambia la trasparenza dei nemici
+        //rispetto alla loro vita
+        Color enHealthColor = Color.white;
+
+        enHealthColor.a = (float)health / maxHealth;
+
+        foreach (SpriteRenderer spr in enemySprites)
+        {
+            spr.color = enHealthColor;
+        }
     }
 
 
@@ -70,6 +82,11 @@ public class Enemy : MonoBehaviour, IEnemy
             health -= damage;
         }
 
+
+        //Feedback
+        deathSfx.PlayOneShot(deathSfx.clip);
+
+
         En_CheckDeath();
     }
 
@@ -79,9 +96,6 @@ public class Enemy : MonoBehaviour, IEnemy
 
         if (idDead)   //Se viene ucciso...
         {
-            //TODO
-
-
             //Aggiunge il punteggio al giocatore
             stats_SO.AddScore(scoreAtDeath);
 
@@ -91,10 +105,6 @@ public class Enemy : MonoBehaviour, IEnemy
             {
                 //Nasconde il nemico
                 gameObject.SetActive(false);
-
-
-                //Feedback
-                deathSfx.PlayOneShot(deathSfx.clip);
             }
         }
     }

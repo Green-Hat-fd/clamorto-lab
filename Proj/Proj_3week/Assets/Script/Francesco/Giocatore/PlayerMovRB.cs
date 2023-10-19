@@ -29,7 +29,7 @@ public class PlayerMovRB : MonoBehaviour
                  hitStep;
 
     [Header("—— Feedback ——")]
-    [SerializeField] SpriteRenderer playerSpr;
+    [SerializeField] GameObject playerSprGroup;
 
     [Space(10)]
     [SerializeField] AudioSource jumpSfx;
@@ -91,17 +91,9 @@ public class PlayerMovRB : MonoBehaviour
         if (isMoving)    //Se sta continuando a muoversi...
         {
             // flippa lo sprite se si muove verso sinistra, e torna normale se ti muovi a destra
-            playerSpr.transform.rotation = xMov < 0 ? leftRot : rightRot;
+            playerSprGroup.transform.rotation = xMov < 0 ? leftRot : rightRot;
         }
 
-
-        //Quando salta riproduce il suono di salto
-        if (hasJumped && isOnGround)
-        {
-            //jumpSfx.pitch = Random.Range(0.8f, 1.1f);
-
-            //jumpSfx.Play();
-        }
 
         //Appena calpesta il terreno col piede,
         //riproduce un suono casuale
@@ -159,7 +151,7 @@ public class PlayerMovRB : MonoBehaviour
             {
                 //Cambia l'animazione a quella di salto
                 AllAnimatorsSetTrigger("Jump");
-                Invoke(nameof(SetTrueIsInAirAfterJump), boxcastDim.y * 2 + 0.05f);
+                Invoke(nameof(SetTrueIsInAirAfterJump), boxcastDim.y * 3);
 
                 doOnce_jump = false;
             }
@@ -264,6 +256,10 @@ public class PlayerMovRB : MonoBehaviour
     }
 
     #endregion
+
+
+
+    public Rigidbody2D GetRB() => rb;
 
 
 

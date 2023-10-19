@@ -17,4 +17,4 @@ MonoBehaviour:
   isLevelOneCompleted: 0
   isLevelTwoCompleted: 0
   isBossLevelCompleted: 0
-  bigShoot_powerUpDuration: 0
+  bigShoot_powerUpDuration: 7.5

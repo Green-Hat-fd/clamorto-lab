@@ -27,11 +27,17 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [Min(0.1f)]
     [SerializeField] float invSec = 3;
 
+    [Space(10)]
+    [Min(0.1f)]
+    [SerializeField] float secBeforeCheckpoint = 2;
+    [Min(0.1f)]
+    [SerializeField] float secBeforeReload = 10;
+
     [Header("—— Feedback ——")]
     [SerializeField] AudioSource deathSfx;
     [SerializeField] Color invColor = new Color(1, 1, 1, 0.5f);
-    [SerializeField] SpriteRenderer normalSpr;
-    [SerializeField] SpriteRenderer deathSpr;
+    [SerializeField] List<SpriteRenderer> playerSprites;
+    [SerializeField] Canvas gameOverCanvas;                            //TODO: -----canvas di morte
 
     [Space(10)]
     [SerializeField] AudioSource jumpSfx;
@@ -44,12 +50,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     [SerializeField] Text scoreTxt;
 
     [Space(10)]
-    [SerializeField] List<Image> healthImages;
+    [SerializeField] Slider healthBar;
     [SerializeField] Image bonusHealthImg;
+    [SerializeField] Text livesTxt;
 
     [Space(10)]
-    [SerializeField] Text ammoTxt;
-    [SerializeField] Text maxAmmoTxt;
+    [SerializeField] Slider ammoSlider;
 
     [Header("—— DEBUG ——")]
     [SerializeField] float deathZoneSize = 15;
@@ -66,7 +72,11 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         stats_SO.SetCheckpointPos(transform.position);
 
         //Reset degli sprite
-        //SwapToDeathSprite(false);
+        ActivatePlayerSprites(true);
+        gameOverCanvas.gameObject.SetActive(false);
+
+        //Reset del punteggio
+        stats_SO.ResetScore();
 
 
         //Fissa il frame-rate da raggiungere dal gioco a 60 fps
@@ -86,36 +96,25 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         #region Cambiare l'HUD
 
         //Cambio del testo (punteggio)
-        scoreTxt.text = "Score: " + stats_SO.GetScore();
+        scoreTxt.text = stats_SO.GetScore() + "";
 
+        //Cambia la barra della vita (health)
+        healthBar.value = (float)health / maxHealth;
 
-        for (int i = 0; i < healthImages.Count; i++)
-        {
-            bool isHeartLost = health - 1 < i;
-
-            //Rende semi-trasparente ogni cuore perso
-            healthImages[i].color = isHeartLost
-                                     ? invColor
-                                     : Color.white;
-        }
-
-        //Rende visibile il cuore bonus
+        //Rende visibile la vita bonus
         //se ha preso il potenziamento
         bonusHealthImg.enabled = hasBonusHealth;
 
 
-        if (!shootScr.GetHasInfiniteAmmo())    //Se NON ha munizioni infinite...
-        {
-            //Cambia le munizioni e il limite massimo
-            ammoTxt.text = shootScr.GetAmmo().ToString();
-            maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
-        }
-        else
-        {
-            //TODO: sistema le munizioni infinite
-            //ammoTxt.text = shootScr.GetAmmo().ToString();
-            //maxAmmoTxt.text = shootScr.GetMaxAmmo().ToString();
-        }
+        //Cambia il testo delle vite (lives)
+        livesTxt.text = "x" + lives;
+
+
+        //Cambia le munizioni e il limite massimo
+        //(se ha munizioni infinite, è sempre max)
+        ammoSlider.value = !shootScr.GetHasInfiniteAmmo()
+                             ? (float)shootScr.GetAmmo() / shootScr.GetMaxAmmo()
+                             : 1;
 
         #endregion
 
@@ -125,9 +124,12 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
         //Cambia lo sprite quando
         //può essere danneggiato
-        normalSpr.color = canBeDamaged
-                           ? Color.white
-                           : invColor;
+        foreach (SpriteRenderer spr in playerSprites)
+        {
+            spr.color = canBeDamaged
+                         ? Color.white
+                         : invColor;
+        }
 
         #endregion
     }
@@ -190,12 +192,10 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
             ResetAllPowerUps();
 
-            deathMng.ActivateScripts(false);    //Disattiva tutti gli script nella lista
-
 
             if (lives <= 0)    //Se NON hai più vite
             {
-                Die_RespawnFromCheckpoint();
+                Pl_Die();
 
                 #region Feedback
 
@@ -205,7 +205,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
             }
             else    //Se hai ancora altre vite
             {
-                Pl_Die();
+                Die_RespawnFromCheckpoint();
 
                 #region Feedback
 
@@ -218,12 +218,13 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void Die_RespawnFromCheckpoint()
     {
-        //TODO-----
-        transform.position = stats_SO.GetCheckpointPos();
+        //Ricarica l'ultimo checkpoint
+        Invoke(nameof(Respawn), secBeforeCheckpoint);
 
-
-        SwapToDeathSprite(true);    //Toglie lo sprite del giocatore
-                                    //e mostra quello di morte
+        //Nasconde lo sprite del
+        //giocatore e lo blocca
+        ActivatePlayerSprites(false);
+        playerMovScr.GetRB().bodyType = RigidbodyType2D.Static;
 
 
         #region Feedback
@@ -237,9 +238,14 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void Pl_Die()
     {
-        //TODO-----
+        //Ricarica l'intero livello
+        Invoke(nameof(ReloadScene), secBeforeReload);
 
+        //Nasconde lo sprite del giocatore
+        ActivatePlayerSprites(false);
 
+        //Mostra la schermata di Game Over
+        gameOverCanvas.gameObject.SetActive(true);
 
 
         #region Feedback
@@ -251,10 +257,33 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
         #endregion
     }
 
-    public void SwapToDeathSprite(bool isDead)
+
+    void ActivatePlayerSprites(bool value)
     {
-        normalSpr.gameObject.SetActive(!isDead);
-        deathSpr.gameObject.SetActive(isDead);
+        foreach (SpriteRenderer spr in playerSprites)
+        {
+            spr.gameObject.SetActive(value);
+        }
+    }
+
+    void Respawn()
+    {
+        //Mostra il giocatore
+        ActivatePlayerSprites(true);
+
+        //Riporta il giocatore al checkpoint
+        transform.position = stats_SO.GetCheckpointPos();
+
+        //Reset delle variabili della vita
+        ResetHealthVariables_Respawn();
+
+        //Fa muovere il giocatore
+        playerMovScr.GetRB().bodyType = RigidbodyType2D.Dynamic;
+    }
+
+    void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     #endregion
@@ -316,15 +345,34 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     }
 
 
+    void ResetHealthVariables_Respawn()
+    {
+        health = maxHealth;
+
+        canBeDamaged = true;
+        isDead = false;
+
+        hasBonusHealth = false;
+    }
+
+
     public void ResetMaxHealth()
     {
         maxHealth = 3;
     }
 
-    public void AddOneHealthPoint()
+    public bool AddOneHealthPoint()
     {
         if (health + 1 <= maxHealth)
+        {
             health++;
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     #endregion
