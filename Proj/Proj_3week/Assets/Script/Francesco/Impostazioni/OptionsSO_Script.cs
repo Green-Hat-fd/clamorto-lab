@@ -8,7 +8,27 @@ using UnityEngine.Audio;
 public class OptionsSO_Script : ScriptableObject
 {
     //Menu Principale
-    #region Exit / Quit
+    #region Scene
+
+    public void OpenNextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void OpenPreviousScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void OpenChooseScene(int buildIndex)
+    {
+        SceneManager.LoadScene(buildIndex);
+    }
+
+    #endregion
+
+
+    #region Esci dal gioco
 
     public void ExitGame()
     {
@@ -19,7 +39,7 @@ public class OptionsSO_Script : ScriptableObject
 
 
     //Opzioni
-    #region Volume and Audio
+    #region Volume e Audio
 
     [Space(15)]
     [SerializeField] AudioMixer generalMixer;
@@ -99,7 +119,7 @@ public class OptionsSO_Script : ScriptableObject
 
 
     //Altro
-    #region Other functions
+    #region Altre funzioni
 
     #endregion
 }
