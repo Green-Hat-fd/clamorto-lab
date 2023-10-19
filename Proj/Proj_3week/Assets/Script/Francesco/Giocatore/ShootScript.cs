@@ -17,7 +17,7 @@ public class ShootScript : MonoBehaviour
     [Min(0)]
     [SerializeField] int maxAmmo = 20;
     int ammo;
-    bool isShootBoostActive,
+    [SerializeField]bool isShootBoostActive,
          infiniteAmmo;
 
     [Space(10)]
