@@ -371,6 +371,8 @@ public class BossScript : Enemy
 
 #region EXTRA - Handles
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(BossScript))]
 public class BossHandles : Editor
 {
@@ -386,5 +388,7 @@ public class BossHandles : Editor
                              1.1f);
     }
 }
+
+#endif
 
 #endregion
