@@ -13,6 +13,8 @@ public class CollectableScript : MonoBehaviour
         NotteStellata_Fine,
         [InspectorName("Finale - Grande Onda")]
         GrandeOnda_Fine,
+        [InspectorName("Finale - Città che sale")]
+        CittaCheSale_Fine,
         [InspectorName("Solo per Punteggio")]
         score
     }
@@ -48,6 +50,7 @@ public class CollectableScript : MonoBehaviour
 
     const CollectType_Enum COLL_NS = CollectType_Enum.NotteStellata_Fine;
     const CollectType_Enum COLL_GO = CollectType_Enum.GrandeOnda_Fine;
+    const CollectType_Enum COLL_CCS = CollectType_Enum.CittaCheSale_Fine;
     const CollectType_Enum COLL_PUNTI = CollectType_Enum.score;
 
     #endregion
@@ -99,6 +102,16 @@ public class CollectableScript : MonoBehaviour
 
                     //Torna al menu principale
                     options_SO.OpenChooseScene(0);
+                    break;
+                
+                //---Città che sale---//
+                case COLL_CCS:
+                    stats_SO.SetBossLevelCompleted(true);
+
+                    sfxToPlay = bigCollectedSfx;
+
+                    //Torna al menu principale
+                    options_SO.OpenNextScene();
                     break;
                 
                 //---Solo il Punteggio---//

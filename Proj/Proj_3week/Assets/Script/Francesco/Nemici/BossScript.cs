@@ -6,6 +6,9 @@ using UnityEditor;
 
 public class BossScript : Enemy
 {
+    [Space(10)]
+    [SerializeField] OptionsSO_Script options_SO;
+
     int phaseNum = 1;
 
     [Header("—— Spara Palle-di-pelle ——")]
@@ -33,10 +36,15 @@ public class BossScript : Enemy
     bool doOnce_fish = true;
     bool doOnce_death = true;
 
+    [Header("—— Morte ——")]
+    [SerializeField] ParticleSystem deathPart;
+    [SerializeField] GameObject cittaCheSale_end;
+
     [Header("—— Movimento del Boss ——")]
     [SerializeField] float bossVelocity = 3.5f;
     [SerializeField] Transform leftPos, rightPos;
     Transform posToMove;
+    bool isStopped;
 
     [Header("—— Feedback ——")]
     [SerializeField] ConfinedCameraScript confinedCamScr;
@@ -62,6 +70,13 @@ public class BossScript : Enemy
         //Prende la posizione iniziale
         posToMove = rightPos;
         startPos = transform.position;
+
+        //Ferma il boss
+        isStopped = true;
+
+
+        deathPart.Stop();
+        cittaCheSale_end.SetActive(false);
     }
 
 
@@ -78,22 +93,30 @@ public class BossScript : Enemy
                 posToMove = leftPos;
         }
 
-        //Il movimento verso la direzione (se non è morto)
-        if(phaseNum != -1)
+        //Se NON è fermo
+        if(!isStopped)
         {
-            transform.position = Vector2.MoveTowards(transform.position,
-                                                     posToMove.position,
-                                                     Time.deltaTime * bossVelocity);
+            //Il movimento verso la direzione (se non è morto)
+            if(phaseNum != -1)
+            {
+                transform.position = Vector2.MoveTowards(transform.position,
+                                                         posToMove.position,
+                                                         Time.deltaTime * bossVelocity);
+            }
+
+
+            //Ogni volta che la vita scende dopo metà,
+            //passa alla seconda fase, oppure controlla se è morto
+            phaseNum =  health <= 0
+                        ? -1
+                        : health > maxHealth/2
+                            ? 1
+                            : 2;
         }
-
-
-        //Ogni volta che la vita scende dopo metà,
-        //passa alla seconda fase, oppure controlla se è morto
-        phaseNum =  health <= 0
-                    ? -1
-                    : health > maxHealth/2
-                        ? 1
-                        : 2;
+        else
+        {
+            phaseNum = 0;
+        }
 
 
         #region Sistemazione delle fasi
@@ -240,17 +263,30 @@ public class BossScript : Enemy
         doOnce_fish = true;
     }
 
+
+    public void SetIsStopped(bool value)
+    {
+        isStopped = value;
+    }
+
     #endregion
 
 
     IEnumerator WaitAndFinishBoss()
     {
-        //Feedback - //TODO
+        //Feedback
+        deathPart.gameObject.SetActive(true);
+        deathPart.Play();
 
 
+        yield return new WaitForSeconds(5);
 
 
-        yield return new WaitForSeconds(10);
+        //Mostra l'oggetto per completare il livello
+        cittaCheSale_end.SetActive(true);
+
+        //Nasconde il Boss
+        gameObject.SetActive(false);
     }
 
 
