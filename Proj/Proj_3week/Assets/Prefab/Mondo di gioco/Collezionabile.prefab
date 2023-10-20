@@ -401,7 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
   options_SO: {fileID: 11400000, guid: b1200245f9db1304dbfaeaf11462d3a3, type: 2}
-  collectableType: 2
+  collectableType: 3
   scoreWhenCollected: 100
   collectSpr: {fileID: 8145236727481883386}
   sinVel: 1.35

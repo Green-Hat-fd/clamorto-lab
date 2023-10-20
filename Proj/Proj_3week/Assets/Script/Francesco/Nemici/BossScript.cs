@@ -38,6 +38,7 @@ public class BossScript : Enemy
 
     [Header("—— Morte ——")]
     [SerializeField] ParticleSystem deathPart;
+    [SerializeField] GameObject cittaCheSale_end;
 
     [Header("—— Movimento del Boss ——")]
     [SerializeField] float bossVelocity = 3.5f;
@@ -72,6 +73,10 @@ public class BossScript : Enemy
 
         //Ferma il boss
         isStopped = true;
+
+
+        deathPart.Stop();
+        cittaCheSale_end.SetActive(false);
     }
 
 
@@ -271,12 +276,17 @@ public class BossScript : Enemy
     {
         //Feedback
         deathPart.gameObject.SetActive(true);
+        deathPart.Play();
 
 
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
 
 
-        options_SO.OpenChooseScene(0);
+        //Mostra l'oggetto per completare il livello
+        cittaCheSale_end.SetActive(true);
+
+        //Nasconde il Boss
+        gameObject.SetActive(false);
     }
 
 

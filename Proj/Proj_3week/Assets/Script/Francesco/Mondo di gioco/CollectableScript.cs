@@ -111,7 +111,7 @@ public class CollectableScript : MonoBehaviour
                     sfxToPlay = bigCollectedSfx;
 
                     //Torna al menu principale
-                    options_SO.OpenChooseScene(0);
+                    options_SO.OpenNextScene();
                     break;
                 
                 //---Solo il Punteggio---//

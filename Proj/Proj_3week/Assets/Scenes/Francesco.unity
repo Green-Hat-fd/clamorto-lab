@@ -5185,6 +5185,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc6f78b8f272584e85ab5e297a26a92, type: 3}
+--- !u!114 &500347254 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
+  m_PrefabInstance: {fileID: 7717171912066025138}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb7dbf1910ba24fa1aa90415b94061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5333,6 +5344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confinedCamScr: {fileID: 519420033}
+  bossScr: {fileID: 500347254}
   newBossZone_camPos: {x: 40, y: 3}
   levelMusic: {fileID: 0}
   bossMusic: {fileID: 0}
@@ -5745,8 +5757,10 @@ MonoBehaviour:
   maxHealth: 300
   stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
   scoreAtDeath: 0
+  enemySprites: []
   damageSfx: {fileID: 0}
   deathSfx: {fileID: 0}
+  options_SO: {fileID: 0}
   ballToSpawn: {fileID: 1678754950}
   ballLife: 10
   offset_ball: {x: 0, y: 0}
@@ -5760,6 +5774,8 @@ MonoBehaviour:
   secRange_fish: {x: 0, y: 0}
   upForce_fish: 15
   fishSprites: []
+  deathPart: {fileID: 0}
+  cittaCheSale_end: {fileID: 0}
   bossVelocity: 2
   leftPos: {fileID: 0}
   rightPos: {fileID: 0}
@@ -6122,6 +6138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confinedCamScr: {fileID: 519420033}
+  bossScr: {fileID: 500347254}
   newBossZone_camPos: {x: 27, y: 16}
   levelMusic: {fileID: 0}
   bossMusic: {fileID: 0}
@@ -17072,17 +17089,49 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 745393940018506692, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745393940018506692, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745393940018506692, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745393940018506692, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 943658739654703199, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 943658739654703199, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 943658739654703199, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 943658739654703199, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 68.39
+      value: 34.45
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.45
+      value: 2.03
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17134,6 +17183,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2517061560352907285, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356062731111336041, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356062731111336041, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356062731111336041, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356062731111336041, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5493161949201394857, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
@@ -17239,9 +17304,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
+      propertyPath: maxHealth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
       propertyPath: confinedCamScr
       value: 
       objectReference: {fileID: 519420033}
+    - target: {fileID: 3923847195167319438, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
+      propertyPath: cittaCheSale_end
+      value: 
+      objectReference: {fileID: 709365582}
     - target: {fileID: 6531026918911472908, guid: f32a91e513af2bd4a85c8aa8a8844ab6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
