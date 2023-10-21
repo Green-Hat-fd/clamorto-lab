@@ -14,11 +14,19 @@ public class ChangeOptionsScript : MonoBehaviour
 
 
 
+    void OnEnable()
+    {
+        //Aggiorna le opzioni
+        //ogni volta che si attiva
+        UpdateOptions();
+    }
+
+
     public void UpdateOptions()
     {
-        sl_musVolume.SetValueWithoutNotify(opt_SO.GetMusicVolume_Percent());
-        sl_sfxVolume.SetValueWithoutNotify(opt_SO.GetSoundVolume_Percent());
+        sl_musVolume.value = opt_SO.GetMusicVolume_Percent();
+        sl_sfxVolume.value = opt_SO.GetSoundVolume_Percent();
 
-        tg_fullscreen.SetIsOnWithoutNotify(Screen.fullScreen);
+        tg_fullscreen.isOn = Screen.fullScreen;
     }
 }

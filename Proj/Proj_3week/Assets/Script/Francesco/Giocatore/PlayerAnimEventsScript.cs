@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StepScript : MonoBehaviour
+public class PlayerAnimEventsScript : MonoBehaviour
 {
     PlayerMovRB movScr;
 
@@ -13,8 +13,13 @@ public class StepScript : MonoBehaviour
         movScr = GetComponentInParent<PlayerMovRB>();
     }
 
-    public void TakeStep()
+    public void AnimEv_TakeStep()
     {
         movScr.SetIsStepTaken(true);
+    }
+
+    public void AnimEv_SetTrueIsInAirAfterJump()
+    {
+        movScr.SetTrueIsInAirAfterJump();
     }
 }

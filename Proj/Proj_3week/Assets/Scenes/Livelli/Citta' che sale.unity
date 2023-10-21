@@ -335,7 +335,7 @@ AudioSource:
   m_GameObject: {fileID: 176075700}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2960619242792846081, guid: 13f76ca116148ed47869e56d88161ec2, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3774ab374baea0d4694e723e53cc8590, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -20112,6 +20112,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nemico Spara (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1096215323523549192, guid: 0f92615cae9c1c94e9cf353e31caec73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1870837231231094539, guid: 0f92615cae9c1c94e9cf353e31caec73, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -20786,7 +20790,7 @@ AudioSource:
   m_GameObject: {fileID: 1539802586}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2960619242792846081, guid: 13f76ca116148ed47869e56d88161ec2, type: 2}
   m_audioClip: {fileID: 8300000, guid: e0ef65bbe2bae724b957b51073dcad8c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1

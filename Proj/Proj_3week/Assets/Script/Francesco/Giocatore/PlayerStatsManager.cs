@@ -11,6 +11,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     [SerializeField] PlayerStatsSO_Script stats_SO;
     [SerializeField] ShootScript shootScr;
+    [SerializeField] PauseMenu pauseScr;
 
     [Space(20)]
     [Range(-100, 0)]
@@ -192,6 +193,8 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
             ResetAllPowerUps();
 
+            pauseScr.EnableAllScripts(false);    //Disabilita tutti gli script
+
 
             if (lives <= 0)    //Se NON hai più vite
             {
@@ -262,7 +265,7 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     {
         foreach (SpriteRenderer spr in playerSprites)
         {
-            spr.gameObject.SetActive(value);
+            spr.enabled = value;
         }
     }
 
@@ -270,6 +273,9 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
     {
         //Mostra il giocatore
         ActivatePlayerSprites(true);
+        
+        //Abilita tutti gli script disabilitati prima
+        pauseScr.EnableAllScripts(true);
 
         //Riporta il giocatore al checkpoint
         transform.position = stats_SO.GetCheckpointPos();
@@ -293,6 +299,8 @@ public class PlayerStatsManager : MonoBehaviour, IPlayer
 
     public void RespawnFromCheckpoint()
     {
+        shootScr.FullyRechargeAmmo();
+
         deathMng.ActivateScripts(true);
 
         //Rimette il giocatore nella posizione dell'ultimo checkpoint

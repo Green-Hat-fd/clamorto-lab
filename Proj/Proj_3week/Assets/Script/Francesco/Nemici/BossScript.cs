@@ -22,7 +22,9 @@ public class BossScript : Enemy
     [SerializeField] float ballRotatVel = 2.5f;
 
     [Header("—— Pesci che saltano ——")]
+    [SerializeField] GameObject fishWarningParticle;
     [SerializeField] GameObject fishToSpawn;
+    [SerializeField] float fishPartLife = 2.5f;
     [SerializeField] float fishLife = 10;
     [Space(10)]
     [SerializeField] Vector2 offset_fish = Vector2.down * 10;
@@ -44,7 +46,7 @@ public class BossScript : Enemy
     [SerializeField] float bossVelocity = 3.5f;
     [SerializeField] Transform leftPos, rightPos;
     Transform posToMove;
-    bool isStopped;
+    bool isNotMoving;
 
     [Header("—— Feedback ——")]
     [SerializeField] ConfinedCameraScript confinedCamScr;
@@ -72,11 +74,18 @@ public class BossScript : Enemy
         startPos = transform.position;
 
         //Ferma il boss
-        isStopped = true;
+        isNotMoving = true;
 
 
         deathPart.Stop();
         cittaCheSale_end.SetActive(false);
+
+
+        //Cambia il tempo delle particelle
+        ParticleSystem part = fishWarningParticle.GetComponent<ParticleSystem>();
+        var _main = part.main;
+        _main.duration = fishPartLife;
+        _main.loop = false;
     }
 
 
@@ -94,7 +103,7 @@ public class BossScript : Enemy
         }
 
         //Se NON è fermo
-        if(!isStopped)
+        if(!isNotMoving)
         {
             //Il movimento verso la direzione (se non è morto)
             if(phaseNum != -1)
@@ -175,20 +184,7 @@ public class BossScript : Enemy
 
 
                     //Crea il pesce nella posizione scelta
-                    GameObject fish = Instantiate(fishToSpawn, fishPosition, Quaternion.Euler(Vector3.up));
-
-                    //Cambia le impostazioni del "proiettile"
-                    BossBullet bossBull = fish.GetComponent<BossBullet>();
-                    bossBull.SetBulletLife_RemoveIt(fishLife);
-                    bossBull.SetFishSprite(randFish);            //Cambia lo sprite del "proiettile"
-
-                    //Fa saltare il pesce verso l'alto
-                    fish.GetComponent<Rigidbody2D>().AddForce(Vector3.up * upForce_fish,
-                                                              ForceMode2D.Impulse);
-
-
-                    //Feedback
-                    createFishSfx.PlayOneShot(createFishSfx.clip);
+                    StartCoroutine(SpawnFishAfterParticle(fishPosition, randFish));
 
 
 
@@ -264,9 +260,46 @@ public class BossScript : Enemy
     }
 
 
-    public void SetIsStopped(bool value)
+    IEnumerator SpawnFishAfterParticle(Vector3 pos, Sprite fishSpr)
     {
-        isStopped = value;
+        #region Spawna le Particelle
+
+        Vector3 pos_fishPart = pos + Vector3.up;
+
+        //Crea il pesce nella posizione scelta
+        GameObject fish_part = Instantiate(fishWarningParticle, pos_fishPart, Quaternion.identity);
+
+        #endregion
+
+
+        yield return new WaitUntil(() => fish_part == null);
+        //yield return new WaitForSeconds(fishPartLife);
+
+
+        #region Spawna il pesce
+
+        //Crea il pesce nella posizione scelta
+        GameObject fish = Instantiate(fishToSpawn, pos, Quaternion.Euler(Vector3.up));
+
+        //Cambia le impostazioni del "proiettile"
+        BossBullet bossBull = fish.GetComponent<BossBullet>();
+        bossBull.SetBulletLife_RemoveIt(fishLife);
+        bossBull.SetFishSprite(fishSpr);            //Cambia lo sprite del "proiettile"
+
+        //Fa saltare il pesce verso l'alto
+        fish.GetComponent<Rigidbody2D>().AddForce(Vector3.up * upForce_fish,
+                                                    ForceMode2D.Impulse);
+
+        //Feedback
+        createFishSfx.PlayOneShot(createFishSfx.clip);
+
+        #endregion
+    }
+
+
+    public void SetIsNotMoving(bool value)
+    {
+        isNotMoving = value;
     }
 
     #endregion

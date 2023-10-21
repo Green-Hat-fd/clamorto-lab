@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
-    public GameObject pauseMenuUI;
+    bool gameIsPaused = false;
+    [SerializeField] GameObject pauseMenuUI;
 
     [SerializeField] List<MonoBehaviour> scriptToBlock;
 
@@ -14,7 +14,8 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        pauseMenuUI.SetActive(false);
+        gameIsPaused = false;
+        Resume();
     }
     
     void Update()
@@ -22,7 +23,7 @@ public class PauseMenu : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (gameIsPaused)
             {
                 Resume();
             }
@@ -38,7 +39,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        GameIsPaused = false;
+        gameIsPaused = false;
 
         EnableAllScripts(true);
     }
@@ -47,12 +48,12 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        GameIsPaused = true;
+        gameIsPaused = true;
 
         EnableAllScripts(false);
     }
 
-    void EnableAllScripts(bool enabled)
+    public void EnableAllScripts(bool enabled)
     {
         foreach (MonoBehaviour scr in scriptToBlock)
         {
