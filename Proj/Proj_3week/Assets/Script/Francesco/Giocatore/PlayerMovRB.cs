@@ -40,8 +40,7 @@ public class PlayerMovRB : MonoBehaviour
     [SerializeField] Animator playerBodyAnim;
     [SerializeField] Animator playerLegsAnim;
     [SerializeField] Animator playerArmAnim;
-    bool isInAirAfterJump,
-         doOnce_jump = true;
+    bool isInAirAfterJump;
 
 
 
@@ -113,7 +112,7 @@ public class PlayerMovRB : MonoBehaviour
         //e idle (se vel simile a 0)
         bool isWalking = rb.velocity.magnitude > 0.15f;
 
-        AllAnimatorsSetBool("IsWalking", isWalking && !isInAirAfterJump);
+        AllAnimatorsSetBool("IsWalking", isWalking && isOnGround);
 
         #endregion
     }
@@ -145,16 +144,6 @@ public class PlayerMovRB : MonoBehaviour
             //(con pitch casuale)
             jumpSfx.pitch = Random.Range(0.8f, 1.1f);
             jumpSfx.Play();
-
-
-            if (doOnce_jump)
-            {
-                //Cambia l'animazione a quella di salto
-                AllAnimatorsSetTrigger("Jump");
-                Invoke(nameof(SetTrueIsInAirAfterJump), boxcastDim.y * 3);
-
-                doOnce_jump = false;
-            }
         }
 
 
@@ -216,8 +205,6 @@ public class PlayerMovRB : MonoBehaviour
 
             //Reset della variabile
             isInAirAfterJump = false;
-
-            doOnce_jump = true;
         }
 
         #endregion
@@ -227,13 +214,18 @@ public class PlayerMovRB : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+
+
+        //Cambia l'animazione a quella di salto
+        AllAnimatorsSetTrigger("Jump");
+        //Invoke(nameof(SetTrueIsInAirAfterJump), boxcastDim.y * 3);
     }
 
 
 
     #region Funzioni Set Personalizzate
 
-    void SetTrueIsInAirAfterJump() { isInAirAfterJump = true; }
+    public void SetTrueIsInAirAfterJump() { isInAirAfterJump = true; }
 
 
     public void SetIsStepTaken(bool value)

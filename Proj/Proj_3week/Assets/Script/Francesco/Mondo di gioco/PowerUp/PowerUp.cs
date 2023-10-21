@@ -8,6 +8,11 @@ public class PowerUp : MonoBehaviour
     Collider2D collid;
     SpriteRenderer powerUpSpr;
 
+    [SerializeField] PlayerStatsSO_Script stats_SO;
+    [Min(0)]
+    [SerializeField] int scoreWhenPickUp;
+
+    [Space(10)]
     [SerializeField] AudioSource pickUpSfx;
 
 
@@ -28,5 +33,8 @@ public class PowerUp : MonoBehaviour
 
         //Feedback
         pickUpSfx.PlayOneShot(pickUpSfx.clip);
+
+        //Aggiunge il punteggio
+        stats_SO.AddScore(scoreWhenPickUp);
     }
 }

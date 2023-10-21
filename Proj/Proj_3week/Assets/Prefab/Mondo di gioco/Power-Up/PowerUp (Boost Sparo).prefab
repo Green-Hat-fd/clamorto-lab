@@ -144,6 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d01157b97f4698469ebb94bb231dbfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
+  scoreWhenPickUp: 500
   pickUpSfx: {fileID: 3717459023975890954}
 --- !u!1 &6977086558836218682
 GameObject:

@@ -423,7 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   stats_SO: {fileID: 11400000, guid: 2f99a58100bc3a7488be6051884ab151, type: 2}
-  scoreAtDeath: 0
+  scoreAtDeath: 100
   enemySprites:
   - {fileID: 7845263557788766832}
   damageSfx: {fileID: 7833129242481257806}

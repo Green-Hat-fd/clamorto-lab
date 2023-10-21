@@ -1281,6 +1281,7 @@ GameObject:
   - component: {fileID: 1189003110}
   - component: {fileID: 1189003112}
   - component: {fileID: 1189003111}
+  - component: {fileID: 1189003113}
   m_Layer: 5
   m_Name: (Opzioni)
   m_TagString: Untagged
@@ -1349,6 +1350,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189003109}
   m_CullTransparentMesh: 1
+--- !u!114 &1189003113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189003109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf895ccaf7898648bda4bb343c1f626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  opt_SO: {fileID: 11400000, guid: b1200245f9db1304dbfaeaf11462d3a3, type: 2}
+  sl_musVolume: {fileID: 159004060}
+  sl_sfxVolume: {fileID: 1597585978}
+  tg_fullscreen: {fileID: 770400181}
 --- !u!1 &1265113484
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,6 +1959,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2895950543984529510, guid: cc2ea4d6d3eced94793893486f29d51a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1921115113}
+    - target: {fileID: 2895950543984529510, guid: cc2ea4d6d3eced94793893486f29d51a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1517680592}
+    - target: {fileID: 2895950543984529510, guid: cc2ea4d6d3eced94793893486f29d51a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895950543984529510, guid: cc2ea4d6d3eced94793893486f29d51a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895950543984529510, guid: cc2ea4d6d3eced94793893486f29d51a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4120547654547402102, guid: cc2ea4d6d3eced94793893486f29d51a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2185,7 +2222,7 @@ AudioSource:
   m_GameObject: {fileID: 1662922102}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2960619242792846081, guid: 13f76ca116148ed47869e56d88161ec2, type: 2}
   m_audioClip: {fileID: 8300000, guid: 30075406d9a7fbf4096b7f4b67a9697d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.85
@@ -2372,12 +2409,12 @@ GameObject:
   - component: {fileID: 1721778119}
   - component: {fileID: 1721778118}
   m_Layer: 0
-  m_Name: CambiaTesti Manager
+  m_Name: CambiaOpzioni Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1721778118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2402,7 +2439,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721778117}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000008511583, y: 1.3499982, z: -0.00000007527888}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

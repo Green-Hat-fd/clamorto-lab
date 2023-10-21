@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c659e39b706eef042a84050097f5501c, type: 3}
   m_Name: Options_SO
   m_EditorClassIdentifier: 
-  chosenLanguage: 0
   generalMixer: {fileID: 24100000, guid: 13f76ca116148ed47869e56d88161ec2, type: 2}
   audioCurve:
     serializedVersion: 2

@@ -5767,7 +5767,9 @@ MonoBehaviour:
   angleRange_ball: 75
   secRange_ball: {x: 0, y: 1}
   ballRotatVel: 90
+  fishWarningParticle: {fileID: 0}
   fishToSpawn: {fileID: 0}
+  fishPartLife: 2.5
   fishLife: 10
   offset_fish: {x: 0, y: -10}
   spawnArea_fish: 25
@@ -17127,7 +17129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 34.45
+      value: 80.58
       objectReference: {fileID: 0}
     - target: {fileID: 1107617013938787916, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -17239,6 +17241,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8318ccf1014fa54f8de1bd1ce88085a, type: 3}
+--- !u!1001 &1689593415950810879
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.728
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 19.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859560, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689593417707859563, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
+      propertyPath: m_Name
+      value: Crea pesce (Particle)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e847e7cb08cb98c44871f91a451ef9df, type: 3}
 --- !u!1001 &6244939305649398088
 PrefabInstance:
   m_ObjectHideFlags: 0

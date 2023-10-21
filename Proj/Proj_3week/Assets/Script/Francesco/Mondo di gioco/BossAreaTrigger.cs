@@ -36,7 +36,7 @@ public class BossAreaTrigger : MonoBehaviour
 
 
             //Attiva il boss
-            bossScr.SetIsStopped(false);
+            bossScr.SetIsNotMoving(false);
 
 
             //Attiva la musica del boss
